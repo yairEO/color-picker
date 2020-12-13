@@ -1,0 +1,21 @@
+.color-picker{
+  > output{
+    grid-area: color;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    height: 0;
+    padding-top: 100%; // box aspect-ratio
+    background: hsla(var(--hue), var(--s), var(--l), var(--a));
+    box-shadow: 0 0 8px -5px; // neede for "white" color on white background
+
+    &::before{
+      content: '';
+      position: absolute;
+      z-index: -1;
+      top: 0; bottom: 0; left: 0; right: 0;
+      background: repeating-conic-gradient(var(--checkboard-color) 0% 25%, transparent 0% 50%) 0 / 12px 12px;
+      // box-shadow: 0 0 0 5px hsl(var(--hue), var(--s), var(--l)) inset;
+    }
+  }
+}

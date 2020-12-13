@@ -1,0 +1,56 @@
+.color-picker{
+  display: grid;
+
+  width: 300px;
+  position: relative;
+  box-sizing: border-box;
+
+  grid-column-gap: .5em;
+  grid-auto-rows: 1fr auto;
+  grid-template-columns: repeat(auto-fit, max-content);
+  grid-template-areas:  "hue        color"
+                        "saturation color"
+                        "lightness  color"
+                        "alpha      color"
+                        "value      value";
+
+  --hue: 150;
+  --saturation: 100; // 100% - completely saturated, 0% - completely unsaturated (gray)
+  --lightness: 50; // 0% - black, 50% - normal
+  --alpha: 100;
+
+  --s: calc(var(--saturation) * 1%);
+  --l: calc(var(--lightness) * 1%);
+  --a: calc(var(--alpha) * 1%);
+
+  --checkboard-color: #DDD;
+  --checkboard-base-gradient: repeating-conic-gradient(var(--checkboard-color) 0% 25%, transparent 0% 50%);
+
+  &__hue{
+    grid-area: hue;
+    --fill-color: linear-gradient(to right, red 0%, #ff0 16.6%, lime 33.3%, cyan 50%, blue 66.6%, #f0f 83.3%, red 100%);
+  }
+
+  &__saturation{
+    grid-area: saturation;
+    --fill-color: linear-gradient(to right, white, hsl(var(--hue),var(--s), 50%));
+  }
+
+  &__lightness{
+    grid-area: lightness;
+    --c: hsl(var(--hue), var(--s), 50%);
+    --fill-color: linear-gradient(to right, black, var(--c), white);
+  }
+
+  &__alpha{
+    grid-area: alpha;
+    --checkboard-size: calc(var(--track-height)/2);
+    --fill-color: linear-gradient(to right, transparent, hsl(var(--hue), var(--s), var(--l))),
+                  var(--checkboard-base-gradient)
+                  0 / var(--checkboard-size) var(--checkboard-size);
+  }
+
+  &__value{
+    grid-area: value;
+  }
+}
