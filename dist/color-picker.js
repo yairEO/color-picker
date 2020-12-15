@@ -19,6 +19,8 @@
   const CSStoHEX = hex => hex.match(/\w\w/g);
   const CSStoRGBA = rgba => rgba.match(/\((.*)\)/)[1].split(',').map(Number);
   const CSStoHSLA = hsla => Object.assign([0,0,0,1], hsla.match(/\((.*)\)/)[1].split(',').map((v,i) => i != 3 ? parseFloat(v) : v.includes('%') ? parseFloat(v) : parseFloat(v)*100 ));
+  const HSLAtoCSS = hsla => `hsla(${hsla.h}, ${hsla.s}%, ${hsla.l}%, ${hsla.a}%)`;
+  const roundNumber = number => number.toFixed(2).replace('.00', '');
   const hex_rgba = hex => {
     const [rr, gg, bb, aa] = CSStoHEX(hex),
           [r,g,b] = [rr,gg,bb].map(v => parseInt(v, 16)),
@@ -59,7 +61,12 @@
           : h = (r - g) / d + 4;
       h /= 6;
     }
-    return { h:h * 360, s:s * 100, l:l * 100, a:a * 100 }
+    return {
+      h: roundNumber(h * 360),
+      s: roundNumber(s * 100),
+      l: roundNumber(l * 100),
+      a: roundNumber(a * 100)
+    }
   };
 
   function scope() {
@@ -85,7 +92,10 @@
   function value(color){
     return `
     <div class='color-picker__value'>
-      <input name='value' value='${any_to_hex(color)}'>
+      <input name='value' placeholder='CSS Color' value='${any_to_hex(HSLAtoCSS(color))}'>
+      <button title='Revert' name="revert">↩</button>
+      <button title='Switch color format' name='format'>⭤</button>
+      <div></div>
     </div>
   `
   }
@@ -99,15 +109,24 @@
 
   function ColorPicker(settings){
     this.settings = Object.assign({}, DEFAULTS, settings);
-    this.color = this.getHSLA() || { h:0, s:0, l:0, a:100 };
     this.DOM = {};
+    this.setColor( this.getHSLA() );
     this.init();
   }
   ColorPicker.prototype = {
     templates,
-    getHSLA(color = this.settings.color ){
+    getColorFormat( color ){
+      return color[0] == '#'
+          ? 'hex'
+          : !color.indexOf('hsl')
+            ? 'hsla'
+            : !color.indexOf('rgb')
+              ? 'rgba'
+              : ''
+    },
+    getHSLA( color = this.settings.color ){
       let result;
-      console.log(color);
+      this.colorFormat = this.getColorFormat(color);
       if( !color.indexOf('hsla') ){
         result = CSStoHSLA(color);
         result = { h:result[0], s:result[1], l:result[2], a:result[3] };
@@ -122,24 +141,96 @@
     onInput(e){
       const {name, value, type} = e.target;
       if( type == 'range' ){
-        this.updateColor(name, value);
+        this.updateCSSVar(name, value);
         e.target.parentNode.style.setProperty('--value',value);
         e.target.parentNode.style.setProperty('--text-value', JSON.stringify(value));
       }
     },
-    updateColor(name, value){
+    onValueChange(e){
+      this.setColor( this.getHSLA(e.target.value) );
+      this.updateAllCSSVars();
+      this.DOM.value.blur();
+    },
+    onButtonClick(e){
+      const { name } = e.target;
+      if( name == 'format' ){
+        this.swithFormat();
+      }
+    },
+    swithFormat(){
+      const _cf = this.colorFormat;
+      switch( _cf ){
+        case '':
+        case 'hex':
+          this.colorFormat = 'rgba';
+          break
+        case 'rgba':
+          this.colorFormat = 'hsla';
+          break
+        case 'hsla':
+          this.colorFormat = 'hex';
+          break
+      }
+      this.setCSSColor();
+      this.DOM.value.value = this.CSSColor;
+    },
+    updateRangeSlider(name, value){
+      const elm = this.DOM.scope.querySelector(`input[name="${name}"]`);
+      if( !elm ) return
+      elm.value = value;
+      elm.parentNode.style.setProperty('--value', value);
+      elm.parentNode.style.setProperty('--text-value', JSON.stringify(""+value).slice(0,6));
+    },
+    setCSSColor(){
+      this.CSSColor = any_to_hex( HSLAtoCSS(this.color) );
+      if( this.colorFormat == 'rgba' )
+        this.CSSColor = hex_rgba(this.CSSColor);
+      else if( this.colorFormat == 'hsla' )
+        this.CSSColor = HSLAtoCSS(
+          rgba_hsla(
+            hex_rgba(this.CSSColor)
+          )
+        );
+      this.DOM.scope && this.DOM.scope.setAttribute("data-color-format", this.colorFormat);
+    },
+    setColor( hsla ){
+      this.color = hsla;
+      this.setCSSColor();
+    },
+    setColorPart(name, value){
+      this.setColor({...this.color, [name[0]]: +value});
+      this.DOM.value.value = this.CSSColor;
+    },
+    updateCSSVar(name, value){
       this.DOM.scope.style.setProperty(`--${name}`, value);
+      this.setColorPart(name, value);
+    },
+    updateAllCSSVars(){
+      const hsla = this.NamedHSLA(this.color);
+      Object.entries(hsla).forEach(([k, v]) => {
+        this.updateCSSVar(k, v);
+        this.updateRangeSlider(k, v);
+      });
+    },
+    NamedHSLA( hsla ){
+      return {
+        "hue"        : hsla.h,
+        "saturation" : hsla.s,
+        "lightness"  : hsla.l,
+        "alpha"      : hsla.a
+      }
     },
     bindEvents(){
       this.DOM.scope.addEventListener("input", this.onInput.bind(this));
-    },
-    initialUpdate(){
-      this.DOM.scope.querySelectorAll('input[type="range"]').forEach((elm) => this.updateColor(elm.name, elm.value));
+      this.DOM.scope.addEventListener("click", this.onButtonClick.bind(this));
+      this.DOM.value.addEventListener("change", this.onValueChange.bind(this));
+      name="format";
     },
     init(){
       const template = this.templates.scope.call(this);
       this.DOM.scope = parseHTML(template);
-      this.initialUpdate();
+      this.DOM.value = this.DOM.scope.querySelector('input[name="value"]');
+      this.updateAllCSSVars();
       this.bindEvents();
     }
   };

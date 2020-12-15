@@ -19,7 +19,8 @@
 <body>
   <script>
     const cPicker = new ColorPicker({
-      color: 'red'  // accepted formats: HEX(A), RGB(A), HSL(A)
+      color: 'red', // accepts formats: HEX(A), RGB(A), HSL(A)
+      onChange: console.log
     })
 
     document.body.appendChild(cPicker.DOM.scope)

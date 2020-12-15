@@ -1,4 +1,4 @@
-import { any_to_hex } from './utils/convertColors'
+import { any_to_hex, HSLAtoCSS } from './utils/convertColors'
 
 export function scope() {
   const {h,s,l,a} = this.color
@@ -26,7 +26,10 @@ export function slider({ name, min = 0, max = 100, value }){
 export function value(color){
   return `
     <div class='color-picker__value'>
-      <input name='value' value='${any_to_hex(color)}'>
+      <input name='value' placeholder='CSS Color' value='${any_to_hex(HSLAtoCSS(color))}'>
+      <button title='Revert' name="revert">↩</button>
+      <button title='Switch color format' name='format'>⭤</button>
+      <div></div>
     </div>
   `
 }

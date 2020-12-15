@@ -4,7 +4,10 @@
 export const CSStoHEX = hex => hex.match(/\w\w/g)
 export const CSStoRGBA = rgba => rgba.match(/\((.*)\)/)[1].split(',').map(Number)
 export const CSStoHSLA = hsla => Object.assign([0,0,0,1], hsla.match(/\((.*)\)/)[1].split(',').map((v,i) => i != 3 ? parseFloat(v) : v.includes('%') ? parseFloat(v) : parseFloat(v)*100 ))
+export const HSLAtoCSS = hsla => `hsla(${hsla.h}, ${hsla.s}%, ${hsla.l}%, ${hsla.a}%)`
+
 const isCX11 = color => color.indexOf('rgb') == color.indexOf('hsl') && color[0] != '#'
+const roundNumber = number => number.toFixed(2).replace('.00', '')
 
 export const hex_rgba = hex => {
   const [rr, gg, bb, aa] = CSStoHEX(hex),
@@ -58,7 +61,13 @@ export const rgba_hsla = rgba => {
     h /= 6
   }
 
-  return { h:h * 360, s:s * 100, l:l * 100, a:a * 100 }
+  return {
+    h: roundNumber(h * 360),
+    s: roundNumber(s * 100),
+    l: roundNumber(l * 100),
+    a: roundNumber(a * 100)
+  }
 }
 
 export const hexToHsl = hex => rgba_hsla( hex_rgba(hex) )
+

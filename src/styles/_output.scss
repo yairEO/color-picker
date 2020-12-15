@@ -1,11 +1,10 @@
 .color-picker{
   > output{
     grid-area: color;
-    border-radius: 50%;
+    border-radius: 5px;
     overflow: hidden;
     position: relative;
-    height: 0;
-    padding-top: 100%; // box aspect-ratio
+    width: 50px;
     background: hsla(var(--hue), var(--s), var(--l), var(--a));
     box-shadow: 0 0 8px -5px; // neede for "white" color on white background
 
