@@ -1,5 +1,6 @@
 import parseHTML from './utils/parseHTML'
 import DEFAULTS from './defaults'
+import isModernBrowser from './utils/isModernBrowser'
 import * as templates from './templates'
 import { any_to_hex, hex_rgba, rgba_hsla, CSStoHSLA, HSLAtoCSS} from './utils/convertColors'
 
@@ -8,7 +9,8 @@ var raf = window.requestAnimationFrame || (cb => window.setTimeout(cb, 1000 / 60
 function ColorPicker(settings){
   this.settings = Object.assign({}, DEFAULTS, settings)
   this.DOM = {}
-  this.setColor( this.getHSLA() )
+  this.setColor( this.getHSLA(this.settings.color) )
+  this.history = [this.color]
   this.init()
 }
 
@@ -26,7 +28,7 @@ ColorPicker.prototype = {
   },
 
   // normalizes any color to HSLA
-  getHSLA( color = this.settings.color ){
+  getHSLA( color ){
     let result
 
     this.colorFormat = this.getColorFormat(color)
@@ -50,6 +52,7 @@ ColorPicker.prototype = {
 
     if( type == 'range' ){
       this.updateCSSVar(name, value)
+      this.setColor({...this.color, [name[0]]: +value})
 
       e.target.parentNode.style.setProperty('--value',value);
       e.target.parentNode.style.setProperty('--text-value', JSON.stringify(value))
@@ -59,18 +62,35 @@ ColorPicker.prototype = {
     }
   },
 
+  onRangeChange(e){
+    const { type } = e.target
+
+    if( type == 'range' || type == 'text' ){
+      this.history.push(this.color)
+    }
+  },
+
   onValueChange(e){
     this.setColor( this.getHSLA(e.target.value) )
-    this.updateAllCSSVars()
     this.DOM.value.blur()
   },
 
   onButtonClick(e){
     const { name } = e.target
 
-    if( name == 'format' ){
+    if( name == 'format' )
       this.swithFormat()
-    }
+
+    else if( name == 'undo' )
+      this.undo()
+
+  },
+
+  undo(){
+    this.history.pop()
+    let lastValue = this.history.pop()
+    lastValue && this.setColor( lastValue )
+    this.history.push(this.color) // push current color to the stack
   },
 
   swithFormat(){
@@ -130,17 +150,15 @@ ColorPicker.prototype = {
   setColor( hsla ){
     this.color = hsla
     this.setCSSColor()
-  },
+    this.DOM.scope && this.updateAllCSSVars()
 
-  setColorPart(name, value){
-    this.setColor({...this.color, [name[0]]: +value})
-    this.DOM.value.value = this.CSSColor
+    if( this.DOM.value  )
+      this.DOM.value.value = this.CSSColor
   },
 
   updateCSSVar(name, value){
     // this.DOM.value
     this.DOM.scope.style.setProperty(`--${name}`, value)
-    this.setColorPart(name, value)
   },
 
   updateAllCSSVars(){
@@ -161,10 +179,14 @@ ColorPicker.prototype = {
   },
 
   bindEvents(){
-    this.DOM.scope.addEventListener("input", this.onInput.bind(this))
-    this.DOM.scope.addEventListener("click", this.onButtonClick.bind(this))
-    this.DOM.value.addEventListener("change", this.onValueChange.bind(this))
-    name="format"
+    [
+      ['scope', 'input' , 'onInput'],
+      ['scope', 'change', 'onRangeChange'],
+      ['scope', 'click' , 'onButtonClick'],
+      ['value', 'change', 'onValueChange'],
+    ].forEach(([elm, event, cb]) =>
+      this.DOM[elm].addEventListener(event,  this[cb].bind(this))
+    )
   },
 
   init(){
@@ -172,9 +194,13 @@ ColorPicker.prototype = {
     this.DOM.scope = parseHTML(template)
     this.DOM.value = this.DOM.scope.querySelector('input[name="value"]')
 
-    this.updateAllCSSVars()
+    this.setColor(this.color)
+    // this.updateAllCSSVars()
     this.bindEvents()
   }
 }
+
+if( !isModernBrowser() )
+  ColorPicker = function(){}
 
 export default ColorPicker

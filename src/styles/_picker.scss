@@ -129,7 +129,7 @@
       user-select: none;
       transition: color .2s, transform .2s ease-out;
 
-      &[name='revert']{
+      &[name='undo']{
         order: 1;
       }
 

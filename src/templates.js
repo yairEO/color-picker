@@ -27,7 +27,7 @@ export function value(color){
   return `
     <div class='color-picker__value'>
       <input name='value' placeholder='CSS Color' value='${any_to_hex(HSLAtoCSS(color))}'>
-      <button title='Revert' name="revert">↩</button>
+      <button title='Undo' name="undo">↩</button>
       <button title='Switch color format' name='format'>⭤</button>
       <div></div>
     </div>

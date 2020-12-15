@@ -16,6 +16,8 @@
     color: 'white'
   };
 
+  var isModernBrowser = () => window.CSS && CSS.supports('top', 'var(--a)');
+
   const CSStoHEX = hex => hex.match(/\w\w/g);
   const CSStoRGBA = rgba => rgba.match(/\((.*)\)/)[1].split(',').map(Number);
   const CSStoHSLA = hsla => Object.assign([0,0,0,1], hsla.match(/\((.*)\)/)[1].split(',').map((v,i) => i != 3 ? parseFloat(v) : v.includes('%') ? parseFloat(v) : parseFloat(v)*100 ));
@@ -93,7 +95,7 @@
     return `
     <div class='color-picker__value'>
       <input name='value' placeholder='CSS Color' value='${any_to_hex(HSLAtoCSS(color))}'>
-      <button title='Revert' name="revert">↩</button>
+      <button title='Undo' name="undo">↩</button>
       <button title='Switch color format' name='format'>⭤</button>
       <div></div>
     </div>
@@ -110,7 +112,8 @@
   function ColorPicker(settings){
     this.settings = Object.assign({}, DEFAULTS, settings);
     this.DOM = {};
-    this.setColor( this.getHSLA() );
+    this.setColor( this.getHSLA(this.settings.color) );
+    this.history = [this.color];
     this.init();
   }
   ColorPicker.prototype = {
@@ -124,7 +127,7 @@
               ? 'rgba'
               : ''
     },
-    getHSLA( color = this.settings.color ){
+    getHSLA( color ){
       let result;
       this.colorFormat = this.getColorFormat(color);
       if( !color.indexOf('hsla') ){
@@ -142,20 +145,33 @@
       const {name, value, type} = e.target;
       if( type == 'range' ){
         this.updateCSSVar(name, value);
+        this.setColor({...this.color, [name[0]]: +value});
         e.target.parentNode.style.setProperty('--value',value);
         e.target.parentNode.style.setProperty('--text-value', JSON.stringify(value));
       }
     },
+    onRangeChange(e){
+      const { type } = e.target;
+      if( type == 'range' || type == 'text' ){
+        this.history.push(this.color);
+      }
+    },
     onValueChange(e){
       this.setColor( this.getHSLA(e.target.value) );
-      this.updateAllCSSVars();
       this.DOM.value.blur();
     },
     onButtonClick(e){
       const { name } = e.target;
-      if( name == 'format' ){
+      if( name == 'format' )
         this.swithFormat();
-      }
+      else if( name == 'undo' )
+        this.undo();
+    },
+    undo(){
+      this.history.pop();
+      let lastValue = this.history.pop();
+      lastValue && this.setColor( lastValue );
+      this.history.push(this.color);
     },
     swithFormat(){
       const _cf = this.colorFormat;
@@ -196,14 +212,12 @@
     setColor( hsla ){
       this.color = hsla;
       this.setCSSColor();
-    },
-    setColorPart(name, value){
-      this.setColor({...this.color, [name[0]]: +value});
-      this.DOM.value.value = this.CSSColor;
+      this.DOM.scope && this.updateAllCSSVars();
+      if( this.DOM.value  )
+        this.DOM.value.value = this.CSSColor;
     },
     updateCSSVar(name, value){
       this.DOM.scope.style.setProperty(`--${name}`, value);
-      this.setColorPart(name, value);
     },
     updateAllCSSVars(){
       const hsla = this.NamedHSLA(this.color);
@@ -221,20 +235,27 @@
       }
     },
     bindEvents(){
-      this.DOM.scope.addEventListener("input", this.onInput.bind(this));
-      this.DOM.scope.addEventListener("click", this.onButtonClick.bind(this));
-      this.DOM.value.addEventListener("change", this.onValueChange.bind(this));
-      name="format";
+      [
+        ['scope', 'input' , 'onInput'],
+        ['scope', 'change', 'onRangeChange'],
+        ['scope', 'click' , 'onButtonClick'],
+        ['value', 'change', 'onValueChange'],
+      ].forEach(([elm, event, cb]) =>
+        this.DOM[elm].addEventListener(event,  this[cb].bind(this))
+      );
     },
     init(){
       const template = this.templates.scope.call(this);
       this.DOM.scope = parseHTML(template);
       this.DOM.value = this.DOM.scope.querySelector('input[name="value"]');
-      this.updateAllCSSVars();
+      this.setColor(this.color);
       this.bindEvents();
     }
   };
+  if( !isModernBrowser() )
+    ColorPicker = function(){};
+  var ColorPicker$1 = ColorPicker;
 
-  return ColorPicker;
+  return ColorPicker$1;
 
 })));
