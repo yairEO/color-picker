@@ -6,6 +6,8 @@ export const CSStoRGBA = rgba => rgba.match(/\((.*)\)/)[1].split(',').map(Number
 export const CSStoHSLA = hsla => Object.assign([0,0,0,1], hsla.match(/\((.*)\)/)[1].split(',').map((v,i) => i != 3 ? parseFloat(v) : v.includes('%') ? parseFloat(v) : parseFloat(v)*100 ))
 export const HSLAtoCSS = hsla => `hsla(${hsla.h}, ${hsla.s}%, ${hsla.l}%, ${hsla.a}%)`
 
+const roundNumber = number => number.toFixed(1).replace('.0', '')
+
 export const hex_rgba = hex => {
   const [rr, gg, bb, aa] = CSStoHEX(hex),
         [r,g,b] = [rr,gg,bb].map(v => parseInt(v, 16)),
@@ -59,10 +61,10 @@ export const rgba_hsla = rgba => {
   }
 
   return {
-    h: (h * 360),
-    s: (s * 100),
-    l: (l * 100),
-    a: (a * 100)
+    h: roundNumber(h * 360),
+    s: roundNumber(s * 100),
+    l: roundNumber(l * 100),
+    a: roundNumber(a * 100)
   }
 }
 

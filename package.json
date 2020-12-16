@@ -25,11 +25,11 @@
     ],
     "scripts": {
         "start": "concurrently \"npm:build:dev\" \"npm:watch:sass\"",
-        "build": "concurrently \"npm:build:prod\" \"npm:build:sass\"",
+        "build": "npm run build:prod && npm run build:sass",
         "build:dev": "npm run clean && npm run bundle:dev",
         "build:prod": "npm run clean && npm run bundle:prod",
         "bundle:dev": "rollup -c rollup.config.dev.js -w",
-        "bundle:prod": "rollup -c rollup.config.prop.js",
+        "bundle:prod": "rollup -c rollup.config.prod.js",
         "build:sass": "node-sass -r --output-style compressed src/styles/styles.scss -o dist",
         "watch:sass": "npm run build:sass && npm run build:sass -- -w",
         "clean": "rm -rf dist && npm run makedir",

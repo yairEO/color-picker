@@ -1,15 +1,31 @@
 export function bindEvents(){
   [
-    ['scope', 'input' , 'onInput'],
-    ['scope', 'change', 'onRangeChange'],
-    ['scope', 'click' , 'onButtonClick'],
-    ['value', 'change', 'onValueChange'],
+    ['scope', 'input' , onInput],
+    ['scope', 'change', onRangeChange],
+    ['scope', 'click' , onButtonClick],
+    ['value', 'change', onValueChange],
   ].forEach(([elm, event, cb]) =>
-    this.DOM[elm].addEventListener(event,  this[cb].bind(this))
+    this.DOM[elm].addEventListener(event,  cb.bind(this))
   )
+
+  // assuming picker uses as a popup
+  if( this.settings.onClickOutside ){
+    document.body.addEventListener('click', onClickOutside.bind(this))
+    window.addEventListener('keydown', onkeydown.bind(this))
+  }
 }
 
-export function  onInput(e){
+function onkeydown(e){
+  if( e.key == 'Escape' )
+    this.settings.onClickOutside(e)
+}
+
+function onClickOutside(e){
+  if( !this.DOM.scope.contains(e.target) )
+    this.settings.onClickOutside(e)
+}
+
+function  onInput(e){
   const {name, value, type} = e.target
 
   if( type == 'range' ){
@@ -21,7 +37,7 @@ export function  onInput(e){
   }
 }
 
-export function onRangeChange(e){
+function onRangeChange(e){
   const { type } = e.target
 
   if( type == 'range' || type == 'text' ){
@@ -29,12 +45,12 @@ export function onRangeChange(e){
   }
 }
 
-export function onValueChange(e){
+function onValueChange(e){
   this.setColor( this.getHSLA(e.target.value) )
   this.DOM.value.blur()
 }
 
-export function onButtonClick(e){
+function onButtonClick(e){
   const { name } = e.target
 
   if( name == 'format' )

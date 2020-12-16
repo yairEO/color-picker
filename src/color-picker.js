@@ -1,6 +1,5 @@
 import parseHTML from './utils/parseHTML'
 import DEFAULTS from './defaults'
-import isModernBrowser from './utils/isModernBrowser'
 import * as templates from './templates'
 import * as events from './events'
 import history from './history'
@@ -77,7 +76,7 @@ ColorPicker.prototype = {
 
     elm.value = value
     elm.parentNode.style.setProperty('--value', value)
-    elm.parentNode.style.setProperty('--text-value', JSON.stringify(""+value).slice(0,6))
+    elm.parentNode.style.setProperty('--text-value', JSON.stringify(""+Math.round(value)))
   },
 
   /**
@@ -145,8 +144,5 @@ ColorPicker.prototype = {
     this.bindEvents()
   }
 }
-
-if( !isModernBrowser() )
-  ColorPicker = function(){}
 
 export default ColorPicker

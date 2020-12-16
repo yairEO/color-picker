@@ -2,9 +2,10 @@ import { any_to_hex, HSLAtoCSS } from './utils/convertColors'
 
 export function scope() {
   const {h,s,l,a} = this.color
+  const className = `color-picker ${this.settings.className||''}`.trim()
 
   return `
-    <div class='color-picker'>
+    <div class='${className}'>
       ${slider({ name:"hue", value:h, max:"360" })}
       ${slider({ name:"saturation", value:s })}
       ${slider({ name:"lightness", value:l })}
@@ -16,7 +17,7 @@ export function scope() {
 }
 
 export function slider({ name, min = 0, max = 100, value }){
-  return `<div class="range color-picker__${name}" title="${name}" style="--min:${min}; --max:${max}; --value:${value}; --text-value:'${value}'">
+  return `<div class="range color-picker__${name}" title="${name}" style="--min:${min}; --max:${max};">
             <input type="range" name="${name}" value="${value}" min="${min}" max="${max}">
             <output></output>
             <div class='range__progress'></div>

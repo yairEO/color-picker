@@ -1,0 +1,83 @@
+.color-picker__value{
+  // using "60" (instead of 50) to offset more to the white
+  --isLightColor: Min(1, Max(60 - var(--lightness) - (100 - var(--alpha)), 0));
+  grid-area: value;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-top: .3em;
+  overflow: hidden;
+  border-radius: 10px; // roughly same same other sliders
+  color: hsl(var(--hue), 100%, calc(var(--isLightColor) * 100%));
+  box-shadow: 0 0 4px rgba(black, .2);
+
+  // opacity-squares background
+  &::before{
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 0; bottom: 0; left: 0; right: 0;
+    border-radius: inherit;
+    background: repeating-conic-gradient(var(--checkboard-color) 0% 25%, transparent 0% 50%) 0 / 12px 12px;
+    // box-shadow: 0 0 0 5px hsl(var(--hue), var(--s), var(--l)) inset;
+  }
+
+  input{
+    flex: 1;
+    order: 2;
+    cursor: text;
+    width: 0;
+    letter-spacing: -.5px;
+    word-spacing: -3px;
+    font: 800 16px/2 monospace;
+    font-size: calc(var(--width)*var(--width-units)/ 20);
+    text-transform: uppercase;
+    padding: 0;
+    text-align: center;
+    border: none;
+    outline: none;
+    background: none;
+    color: inherit;
+    transition: color .2s;
+
+    ~ div{
+      position: absolute;
+      z-index: -1;
+      top: 0; bottom: 0; left: 0; right: 0;
+      border-radius: inherit;
+      background: var(--color);
+    }
+
+    &:focus{
+      color: black;
+
+      ~ button{ transform: translateX(100%); }
+      + button{ transform: translateX(-100%); }
+      ~ div{
+        background: none;
+        transition: background .15s;
+        border: 3px solid var(--color);
+      }
+    }
+  }
+
+  > button{
+    order: 3;
+    width: 1.5em;
+    background: none;
+    border: none;
+    font: 1.6em/1.2 monospace;
+    outline: none;
+    color: inherit;
+    cursor: pointer;
+    user-select: none;
+    transition: color .2s, transform .2s ease-out;
+
+    &[name='undo']{
+      order: 1;
+    }
+
+    &:hover{
+    }
+  }
+}

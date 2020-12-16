@@ -5,14 +5,50 @@
   <meta name="viewport" content="width=device-width">
   <title>Color Picker</title>
   <script src="./dist/color-picker.min.js"></script>
+  <script src="https://unpkg.com/nanopop"></script>
   <link rel="stylesheet" href="./dist/styles.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
   <style>
     body {
       height: 100vh;
-      display: grid;
-      place-content: center;
-      place-items: center;
-      gap: 10%;
+      margin: 0;
+      display: flex;
+      flex-flow: column;
+      gap: 5vh;
+      justify-content: center;
+      align-items: stretch;
+      text-align: center;
+      background: repeating-conic-gradient(#F1F1F1 0% 25%, transparent 0% 50%)
+                  0 / 25px 25px;
+    }
+
+    h1{
+      font: calc(2.5em + 1vw)/1 'Quicksand', sans-serif;
+      margin: 0;
+    }
+
+    p{
+      font-family: 'Quicksand', sans-serif;
+      font-size: calc(1.5em + .5vw);
+      margin: -3vh 0 0;
+    }
+
+    a.button{
+      align-self: center;
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      background: #333;
+      color: white;
+      border-radius: 20px;
+      padding: .5em 1.2em;
+      text-decoration: none;
+    }
+
+    .colors{
+      display: flex;
+      justify-content: center;
+      gap: 6%;
     }
 
     @supports (display: grid) {
@@ -20,32 +56,74 @@
         background: var(--color, #000);
         border: none;
         border-radius: 50%;
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         outline: none;
         font-size: 0;
         cursor: pointer;
+        transition: transform .25s cubic-bezier(.35,0,0,1.6);
+      }
+
+      .myColor:hover{
+        transform: scale(1.33);
       }
     }
   </style>
 </head>
 <body>
-  <input class='myColor' value='#FF0000' />
+  <a class='button' href='https://github.com/yairEO/color-picker'>GITHUB</a>
+  <h1>Color Picker</h1>
+  <p>
+    Minimal, 5KB Color-Picker in Vanila-js
+  </p>
+
+  <div class='colors'>
+    <input class='myColor' value='gold' style='--color:gold' />
+    <input class='myColor' value='HSLA(244, 64%, 62%, 100%)' style='--color:HSLA(244, 64%, 62%, 100%)' />
+    <input class='myColor' value='rgba(0,255,255,.5)' style='--color:rgba(0,255,255,.5)' />
+  </div>
+
   <script>
-    const myColor = document.querySelector('.myColor')
+    document.querySelectorAll('.myColor').forEach(myColor => {
+      const resizeObserver = new ResizeObserver(entries => {
+        if( !cPicker.DOM.scope.classList.contains('hidden') )
+          NanoPop.reposition( myColor, cPicker.DOM.scope )
+      })
 
-    const cPicker = new ColorPicker({
-      color: 'red', // accepts formats: HEX(A), RGB(A), HSL(A)
+      const cPicker = new ColorPicker({
+        color: myColor.value, // accepts formats: HEX(A), RGB(A), HSL(A)
 
-      onInput(c){
-        myColor.value = c;
-        myColor.style.setProperty('--color', c)
-      },
+        className: 'hidden',
 
-      // onChange: console.log
+        onClickOutside(e){
+          let action = 'add'
+
+          if( e.target == myColor ){
+            NanoPop.reposition( myColor, cPicker.DOM.scope )
+            action = 'toggle'
+          }
+
+          if( e.key == 'Escape' )
+            action = 'add'
+
+          cPicker.DOM.scope.classList[action]('hidden')
+        },
+
+        onInput(c){
+          myColor.value = c;
+          myColor.style.setProperty('--color', c)
+        },
+
+        // onChange: console.log
+      })
+
+      document.body.appendChild(cPicker.DOM.scope)
+
+      NanoPop.reposition( myColor, cPicker.DOM.scope )
+      resizeObserver.observe(document.body)
     })
 
-    document.body.appendChild(cPicker.DOM.scope)
+
   </script>
 </body>
 </html>
