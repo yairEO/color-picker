@@ -1,6 +1,6 @@
 <p align="center">
-  <a href=''>
-      <img src="./demo.gif?sanitize=true" alt="color picker demo gif"/>
+  <a href='https://yaireo.github.io/color-picker/'>
+    <img src="./demo.gif?sanitize=true" alt="color picker demo gif"/>
   </a>
 <p>
 
