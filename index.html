@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Color Picker</title>
-  <script src="./dist/color-picker.js"></script>
+  <script src="./dist/color-picker.min.js"></script>
   <link rel="stylesheet" href="./dist/styles.css">
   <style>
     body {
@@ -14,13 +14,35 @@
       place-items: center;
       gap: 10%;
     }
+
+    @supports (display: grid) {
+      .myColor{
+        background: var(--color, #000);
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        outline: none;
+        font-size: 0;
+        cursor: pointer;
+      }
+    }
   </style>
 </head>
 <body>
+  <input class='myColor' value='#FF0000' />
   <script>
+    const myColor = document.querySelector('.myColor')
+
     const cPicker = new ColorPicker({
       color: 'red', // accepts formats: HEX(A), RGB(A), HSL(A)
-      onChange: console.log
+
+      onInput(c){
+        myColor.value = c;
+        myColor.style.setProperty('--color', c)
+      },
+
+      // onChange: console.log
     })
 
     document.body.appendChild(cPicker.DOM.scope)

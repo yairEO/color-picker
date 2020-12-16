@@ -24,21 +24,26 @@
         "not op_mini all"
     ],
     "scripts": {
-        "start": "concurrently \"npm:build\" \"npm:watch:sass\"",
-        "build": "npm run clean && npm run makedir && npm run bundle",
-        "bundle": "rollup -c -w",
+        "start": "concurrently \"npm:build:dev\" \"npm:watch:sass\"",
+        "build": "concurrently \"npm:build:prod\" \"npm:build:sass\"",
+        "build:dev": "npm run clean && npm run bundle:dev",
+        "build:prod": "npm run clean && npm run bundle:prod",
+        "bundle:dev": "rollup -c rollup.config.dev.js -w",
+        "bundle:prod": "rollup -c rollup.config.prop.js",
         "build:sass": "node-sass -r --output-style compressed src/styles/styles.scss -o dist",
         "watch:sass": "npm run build:sass && npm run build:sass -- -w",
-        "clean": "rm -rf dist",
+        "clean": "rm -rf dist && npm run makedir",
         "makedir": "mkdirp dist",
         "push": "git push origin",
-        "push:tags": "git push origin --tags"
+        "push:tags": "git push origin --tags",
+        "test": "jest"
     },
     "author": {
         "name": "Yair Even-Or",
         "email": "vsync.design@gmail.com"
     },
     "main": "./dist/color-picker.min.js",
+    "module": "./dist/color-picker.min.js",
     "files": [
         "./dist/color-picker.js",
         "./dist/color-picker.min.js",
@@ -58,9 +63,16 @@
         "@rollup/plugin-commonjs": "^17.0.0",
         "@rollup/plugin-node-resolve": "^11.0.0",
         "concurrently": "^5.3.0",
+        "jest": "^26.6.3",
+        "jest-environment-puppeteer": "^4.4.0",
+        "jest-image-snapshot": "^4.2.0",
+        "jest-playwright-preset": "^1.4.2",
         "mkdirp": "^1.0.4",
         "node-sass": "^5.0.0",
         "onchange": "^7.1.0",
+        "playwright-chromium": "^1.6.2",
+        "playwright-firefox": "^1.6.2",
+        "playwright-webkit": "^1.6.2",
         "rimraf": "^3.0.2",
         "rollup": "^2.34.2",
         "rollup-plugin-cleanup": "^3.2.1",
@@ -68,6 +80,5 @@
         "rollup-plugin-scss": "^2.6.1",
         "rollup-plugin-serve": "^1.1.0",
         "rollup-plugin-terser": "^7.0.2"
-    },
-    "dependencies": {}
+    }
 }

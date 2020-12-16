@@ -1,3 +1,5 @@
 export default {
-  color: 'white'
+  color: 'white',
+  onInput: _=>_,
+  onChange: _=>_,
 }
