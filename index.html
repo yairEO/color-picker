@@ -12,6 +12,7 @@
   <style>
     body {
       height: 100vh;
+      max-height: 100vh;
       margin: 0;
       display: flex;
       flex-flow: column;
@@ -78,9 +79,9 @@
   </p>
 
   <div class='colors'>
-    <input class='myColor' value='gold' style='--color:gold' data-swatches='false' />
-    <input class='myColor' value='HSLA(244, 64%, 62%, 100%)' style='--color:HSLA(244, 64%, 62%, 100%)' data-swatches='["LightCoral", "MediumSeaGreen", "#3680FA99"]' />
-    <input class='myColor' value='rgba(0,255,255,.5)' style='--color:rgba(0,255,255,.5)' data-swatches='["rgba(50,250,80,.5)"]' />
+    <input class='myColor' inputmode='none' value='gold' style='--color:gold' data-swatches='false' />
+    <input class='myColor' inputmode='none' value='HSLA(244, 64%, 62%, 100%)' style='--color:HSLA(244, 64%, 62%, 100%)' data-swatches='["LightCoral", "MediumSeaGreen", "#3680FA99"]' />
+    <input class='myColor' inputmode='none' value='rgba(0,255,255,.5)' style='--color:rgba(0,255,255,.5)' data-swatches='["rgba(50,250,80,.5)"]' />
   </div>
 
   <script>

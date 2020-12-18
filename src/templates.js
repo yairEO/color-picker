@@ -28,9 +28,9 @@ export function slider({ name, min = 0, max = 100, value }){
 export function value( color ){
   return `
     <div class='color-picker__value cp-checkboard'>
-      <input name='value' placeholder='CSS Color' value='${any_to_hex(HSLAtoCSS(color))}'>
-      <button title='Undo' name="undo">↩</button>
-      <button title='Switch color format' name='format'>⭤&nbsp;</button>
+      <input name='value' inputmode='decimal' placeholder='CSS Color' value='${any_to_hex(HSLAtoCSS(color))}'>
+      <button title='Undo' name="undo">↶</button>
+      <button title='Switch color format' name='format'>⇆</button>
       <div></div>
     </div>
   `
