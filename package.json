@@ -1,6 +1,6 @@
 {
     "name": "@yaireo/color-picker",
-    "version": "0.9.0",
+    "version": "0.9.1",
     "homepage": "https://github.com/yairEO/color-picker",
     "description": "Lightweight javascript color picker",
     "keywords": [
@@ -45,7 +45,6 @@
     "main": "./dist/color-picker.min.js",
     "module": "./dist/color-picker.min.js",
     "files": [
-        "./dist/color-picker.js",
         "./dist/color-picker.min.js",
         "./dist/styles.css"
     ],

@@ -4,6 +4,17 @@
   </a>
 <p>
 
+
+<p align="center">
+  <a href='https://www.npmjs.com/package/@yaireo/color-picker'>
+      <img src="https://badgen.net/npm/v/@yaireo/color-picker?color=blue" />
+  </a>
+  <img src="https://badgen.net/npm/license/@yaireo/color-picker?color=green" />
+  <img src="https://badgen.net/badgesize/brotli/@yaireo/color-picker/@yaireo/color-picker?color=yellow" />
+  <img src="https://badgen.net/badgesize/gzip/@yaireo/color-picker/@yaireo/color-picker?color=red" />
+  <img src="https://badgen.net/npm/dw/@yaireo/color-picker?color=purple" />
+</p>
+
 <h1 align="center">
   Minimal, 5KB Color-Picker in Vanila-js
 </h1>
@@ -73,6 +84,8 @@ const cPicker = new ColorPicker({
   color: myColor.value, // use the input element's value
 
   className: 'hidden', // start as hidden
+
+  swatches: ['white', '#000', 'rgba(255,0,0,.3)'],
 
   onClickOutside(e){
     let action = 'add'
