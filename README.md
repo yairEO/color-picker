@@ -60,6 +60,22 @@ const cPicker = new ColorPicker({
   // default: false
   swatchesLocalStorage: true,
 
+  // buttons text & icon
+  buttons: {
+    undo: {
+      icon: '↶',
+      title: 'Undo'
+    },
+    format: {
+      icon: '⇆',
+      title: 'Switch Color Format'
+    },
+    add: {
+      icon: '+',
+      title: 'Add to Swatches'
+    }
+  },
+
   // fired rapidly, on every range slider movement or any color change
   onInput(color){},
 
