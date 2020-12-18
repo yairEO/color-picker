@@ -25,7 +25,8 @@
     ],
     "np": {
 		"yarn": false,
-		"contents": "dist"
+		"contents": "dist",
+        "yolo": true
 	},
     "scripts": {
         "start": "concurrently \"npm:build:dev\" \"npm:watch:sass\"",
@@ -41,7 +42,7 @@
         "makedir": "mkdirp dist",
         "push": "git push origin",
         "push:tags": "git push origin --tags",
-        "test": "jest"
+        "test": "echo \"No test specified\""
     },
     "author": {
         "name": "Yair Even-Or",
