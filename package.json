@@ -30,7 +30,7 @@
     },
     "scripts": {
         "start": "concurrently \"npm:build:dev\" \"npm:watch:sass\"",
-        "prepare": "npm run build",
+        "_prepare": "npm run build",
         "build": "npm run build:prod && npm run build:sass",
         "build:dev": "npm run clean && npm run bundle:dev",
         "build:prod": "npm run clean && npm run bundle:prod",
