@@ -41,21 +41,33 @@ seen in the demo page and below, on the last section.
 
 ```js
 const cPicker = new ColorPicker({
-  color: 'red', // accepted formats: HEX(A), RGB(A), HSL(A), X11 color name
+  // accepted formats: HEX(A), RGB(A), HSL(A), X11 color name
+  color: 'red',
 
-  defaultFormat: 'hex', // default rendered textual represention format
+  // default rendered textual represention format
+  // default: 'hex'
+  defaultFormat: 'hex',
 
-  className: 'hidden', // initial class name for the component's wrapper element
+  // initial class name for the component's wrapper element
+  // default: ''
+  className: 'hidden',
 
-  swatches: ['red', '#666', 'rgba(10,20,30,.5)'], // to disable, set "false" instead of an Array
+  // to disable, set "false" instead of an Array
+  // default: []
+  swatches: ['red', '#666', 'rgba(10,20,30,.5)'],
 
-  swatchesLocalStorage, // saves colors for persistance and cross-usage between picker instances
+  // saves colors for persistance and cross-usage between picker instances
+  // default: false
+  swatchesLocalStorage: true,
 
-  onInput(color){}, // fired rapidly, on every range slider movement or any color change
+  // fired rapidly, on every range slider movement or any color change
+  onInput(color){},
 
-  onChnage(color){}, // like "onInput", but not fired while a range slider is moved
+  // like "onInput", but not fired while a range slider is moved
+  onChnage(color){},
 
-  onClickOutside(e){}  // helpful when the component is used as a popup
+  // helpful when the component is used as a popup
+  onClickOutside(e){}
 })
 ```
 
