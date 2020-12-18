@@ -1,6 +1,6 @@
 {
     "name": "@yaireo/color-picker",
-    "version": "0.9.2",
+    "version": "0.9.1",
     "homepage": "https://github.com/yairEO/color-picker",
     "description": "Lightweight javascript color picker",
     "keywords": [
@@ -23,8 +23,13 @@
         "not IE_Mob 11",
         "not op_mini all"
     ],
+    "np": {
+		"yarn": false,
+		"contents": "dist"
+	},
     "scripts": {
         "start": "concurrently \"npm:build:dev\" \"npm:watch:sass\"",
+        "version": "npm run build",
         "build": "npm run build:prod && npm run build:sass",
         "build:dev": "npm run clean && npm run bundle:dev",
         "build:prod": "npm run clean && npm run bundle:prod",
