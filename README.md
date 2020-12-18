@@ -19,9 +19,23 @@
   Minimal, 5KB Color-Picker in Vanila-js
 </h1>
 
+
 **⚠️ Supported only in modern browsers**
 
-## What is this:
+* Carefully crafted as lightweight as possible
+* Mousewheel-suppored *range silders*
+* Minimal UX for smallest screen footprint
+* Supported color formats: [`x11 color codes`](https://en.wikipedia.org/wiki/X11_color_names),
+`hexa`, `rgba`, `hsla`
+* Positioning-engine **not included**. Use your own, or one suggested below
+* Optional color swatches:
+  * pre-determined values (un-removable)
+  * custom color add/remove swatch
+  * optional global sync with *localstorage* between picker instances
+
+
+<details>
+  <summary><strong>tl;dr</strong></summary>
 
 This color-picker component is basesd on my previous work with highly customizable range input (slider) component: [UI-Range](https://github.com/yairEO/ui-range) and the power of HSLA color format infused into custom CSS properties (variables) to allow as lightweight solution as possible.
 
@@ -32,6 +46,9 @@ than the default `<input type=color>` which looks different across browsers and 
 Since this component is ***only*** the color picker itself, it is up to developers to connect it to a position script,
 if they wish to use it as a *popup* when some other thing is clicked on the page. An example of such can be
 seen in the demo page and below, on the last section.
+</details>
+
+<br>
 
 ## Install
 
