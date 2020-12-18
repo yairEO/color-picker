@@ -5,6 +5,7 @@ const swatchesIncludes = (swatches, color) => swatches.some(swatch => {
   console.log( any_to_hex(swatch) , any_to_hex(color), any_to_hex(swatch) == any_to_hex(color) )
   return any_to_hex(swatch) == any_to_hex(color)
 })
+
 const storeKey = '@yaireo/color-picker/swatches'
 
 export function getSetGlobalSwatches(data){
@@ -18,7 +19,7 @@ export function getSetGlobalSwatches(data){
   }
 
   // "filter(String)" clean up any emprty strings
-  return localStorage[storeKey + customKey].split(',').filter(String) || []
+  return localStorage[storeKey + customKey]?.split(',').filter(String) || []
 }
 
 // sync instance swatches with global ones. skip duplicates
