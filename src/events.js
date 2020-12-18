@@ -83,6 +83,8 @@ function onButtonClick(e){
   else if( name == 'removeSwatch' )
     this.removeSwatch(pNode, pNode.title)
 
-  else if( classList.contains('color-picker__swatch') && title )
+  else if( classList.contains('color-picker__swatch') && title ){
+    this.history.last = this.color
     this.setColor( this.getHSLA(title) )
+  }
 }

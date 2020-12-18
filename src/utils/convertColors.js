@@ -44,7 +44,7 @@ export const rgba_hsla = rgba => {
 
       h = 0,
       s = 0,
-      l = ((max + min) / 2).toPrecision(2)
+      l = ((max + min) / 2).toPrecision(5)
 
   if (d){
     s = l > 0.5
