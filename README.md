@@ -7,12 +7,10 @@
 
 <p align="center">
   <a href='https://www.npmjs.com/package/@yaireo/color-picker'>
-      <img src="https://badgen.net/npm/v/@yaireo/color-picker?color=blue" />
+      <img src="https://badgen.net/npm/v/@yaireo/color-picker?color=red" />
   </a>
-  <img src="https://badgen.net/npm/license/@yaireo/color-picker?color=green" />
-  <img src="https://badgen.net/badgesize/brotli/@yaireo/color-picker/@yaireo/color-picker?color=yellow" />
-  <img src="https://badgen.net/badgesize/gzip/@yaireo/color-picker/@yaireo/color-picker?color=red" />
-  <img src="https://badgen.net/npm/dw/@yaireo/color-picker?color=purple" />
+  <img src="https://badgen.net/bundlephobia/minzip/@yaireo/color-picker?color=green" />
+  <img src="https://badgen.net/npm/dw/@yaireo/color-picker?color=blue" />
 </p>
 
 <h1 align="center">
