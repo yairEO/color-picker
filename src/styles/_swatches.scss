@@ -1,0 +1,70 @@
+.color-picker{
+  &__swatches{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 3px;
+
+    > button{
+      --shadow-size: 2px;
+      order: 0;
+      padding: 12px;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: var(--c);
+      font-size: 18px;
+      line-height: 1px;
+      text-indent: -6px;
+      transition: .1s;
+      box-shadow: 0 0 0 var(--shadow-size) inset var(--color);
+
+      &:hover:not(:active){
+        --shadow-size: 4px;
+        // --c: var(--color);
+      }
+    }
+  }
+
+  &__swatch{
+    order: 1; // after the "add" button
+    padding: 12px;
+    line-height: 0;
+    border-radius: 50%;
+    background: var(--c);
+    position: relative;
+    cursor: pointer;
+    // border: 2px solid white;
+    transition: .15s ease-in-out;
+
+    &:hover{
+      transition: 50ms;
+      // border-color: var(--c);
+
+      > button{
+        opacity: 1;
+      }
+    }
+
+    &.cp_remove{
+      padding: 0;
+      pointer-events: none;
+      transition: .2s;
+    }
+
+    // remove swatch button
+    > button{
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      line-height: .1;
+      color: black;
+      font-weight: 800;
+      text-shadow: 0 3px white, -2px 1px white;
+    }
+  }
+}

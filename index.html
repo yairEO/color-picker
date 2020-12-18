@@ -19,8 +19,8 @@
       justify-content: center;
       align-items: stretch;
       text-align: center;
-      background: repeating-conic-gradient(#F1F1F1 0% 25%, transparent 0% 50%)
-                  0 / 25px 25px;
+      background: repeating-conic-gradient(#F1F1F1 0% 25%, transparent 0% 50%) 0 / 25px 25px;
+      transition: 2s ease-out;
     }
 
     h1{
@@ -78,9 +78,9 @@
   </p>
 
   <div class='colors'>
-    <input class='myColor' value='gold' style='--color:gold' />
-    <input class='myColor' value='HSLA(244, 64%, 62%, 100%)' style='--color:HSLA(244, 64%, 62%, 100%)' />
-    <input class='myColor' value='rgba(0,255,255,.5)' style='--color:rgba(0,255,255,.5)' />
+    <input class='myColor' value='gold' style='--color:gold' data-swatches='false' />
+    <input class='myColor' value='HSLA(244, 64%, 62%, 100%)' style='--color:HSLA(244, 64%, 62%, 100%)' data-swatches='["LightCoral", "MediumSeaGreen", "#3680FA99"]' />
+    <input class='myColor' value='rgba(0,255,255,.5)' style='--color:rgba(0,255,255,.5)' data-swatches='["rgba(50,250,80,.5)"]' />
   </div>
 
   <script>
@@ -94,6 +94,12 @@
         color: myColor.value, // accepts formats: HEX(A), RGB(A), HSL(A)
 
         className: 'hidden',
+
+        swatches: myColor.dataset.swatches == 'false'
+          ? false
+          : JSON.parse(myColor.dataset.swatches),
+
+        swatchesLocalStorage: true,
 
         onClickOutside(e){
           let action = 'add'

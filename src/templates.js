@@ -12,6 +12,7 @@ export function scope() {
       ${slider({ name:"alpha", value:a })}
       <output></output>
       ${value(this.color)}
+      ${this.swatches ? swatches(this.swatches, this.initialSwatches) : ''}
     </div>
   `
 }
@@ -26,7 +27,7 @@ export function slider({ name, min = 0, max = 100, value }){
 
 export function value( color ){
   return `
-    <div class='color-picker__value'>
+    <div class='color-picker__value cp-checkboard'>
       <input name='value' placeholder='CSS Color' value='${any_to_hex(HSLAtoCSS(color))}'>
       <button title='Undo' name="undo">↩</button>
       <button title='Switch color format' name='format'>⭤&nbsp;</button>
@@ -34,3 +35,17 @@ export function value( color ){
     </div>
   `
 }
+
+export function swatches(swatches, initialSwatches){
+  return `
+    <div class='color-picker__swatches' style='--initial-len:${initialSwatches.length}'>
+      <button name='addSwatch' title='Add to Swatches'>+</button>
+      ${swatches.map(color => swatch(color, initialSwatches.includes(color))).join('')}
+    </div>
+  `
+}
+
+export function swatch(color, isLocked){
+  return `<div class="cp-checkboard color-picker__swatch" title="${color}" style="--c:${color}">${isLocked ? '' : '<button name="removeSwatch">&times;</button>'}</div>`
+}
+

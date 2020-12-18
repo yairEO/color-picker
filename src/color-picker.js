@@ -3,20 +3,31 @@ import DEFAULTS from './defaults'
 import * as templates from './templates'
 import * as events from './events'
 import history from './history'
+import * as swatches from './swatches'
 import { any_to_hex, hex_rgba, rgba_hsla, CSStoHSLA, HSLAtoCSS} from './utils/convertColors'
 
 var raf = window.requestAnimationFrame || (cb => window.setTimeout(cb, 1000 / 60))
 
 function ColorPicker(settings){
   this.settings = Object.assign({}, DEFAULTS, settings)
+
+  const {color, defaultFormat, swatches} = this.settings
+
   this.DOM = {}
-  this.setColor( this.getHSLA(this.settings.color) )
+
+  this.sharedSwatches = this.getSetGlobalSwatches() // only this gets syncs with the localstorage (if chosen to)
+  this.initialSwatches = swatches || []
+  this.swatches = swatches && this.sharedSwatches.concat(this.initialSwatches) // global (shared) via localstorage
+
+  this.setColor(this.getHSLA( this.changeColorFormat(color, defaultFormat) ))
   this.history = history.call(this)
   this.init()
 }
 
 ColorPicker.prototype = {
   templates,
+  ...swatches,
+  ...events,
 
   getColorFormat( color ){
     return color[0] == '#'
@@ -28,7 +39,23 @@ ColorPicker.prototype = {
             : ''
   },
 
-  // normalizes any color to HSLA
+  changeColorFormat(color, format){
+    format = (format+"").toLowerCase()
+    color = any_to_hex(color)
+
+    return format == 'hex'
+        ? color
+        : format.startsWith('hsl')
+          ? HSLAtoCSS( rgba_hsla( hex_rgba(color) ) )
+          : format.startsWith('rgb')
+            ? hex_rgba(color)
+            : color
+  },
+
+  /**
+   * normalizes any color to HSLA-Object
+   * @param {String} color
+   */
   getHSLA( color ){
     let result
 
@@ -77,6 +104,8 @@ ColorPicker.prototype = {
     elm.value = value
     elm.parentNode.style.setProperty('--value', value)
     elm.parentNode.style.setProperty('--text-value', JSON.stringify(""+Math.round(value)))
+
+    this.updateCSSVar(name, value)
   },
 
   /**
@@ -118,7 +147,6 @@ ColorPicker.prototype = {
   updateAllCSSVars(){
     const hsla = this.NamedHSLA(this.color)
     Object.entries(hsla).forEach(([k, v]) => {
-      this.updateCSSVar(k, v)
       this.updateRangeSlider(k, v)
     })
   },
@@ -132,13 +160,15 @@ ColorPicker.prototype = {
     }
   },
 
-  ...events,
-
-  init(){
+  build(){
     const template = this.templates.scope.call(this)
     this.DOM.scope = parseHTML(template)
     this.DOM.value = this.DOM.scope.querySelector('input[name="value"]')
+    this.DOM.swatches = this.DOM.scope.querySelector('.color-picker__swatches')
+  },
 
+  init(){
+    this.build()
     this.setColor(this.color)
     // this.updateAllCSSVars()
     this.bindEvents()

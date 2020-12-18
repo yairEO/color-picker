@@ -20,6 +20,7 @@
 
   display: flex;
   flex-flow: column;
+  gap: .5em;
 
   width: calc(var(--width) * var(--width-units));
   position: relative;
@@ -27,7 +28,6 @@
 
   transition: opacity .15s, transform .15s;
   transition-timing-function: ease-out;
-
 
   &__hue{
     grid-area: hue;
@@ -52,4 +52,22 @@
                   var(--checkboard-base-gradient)
                   0 / var(--checkboard-size) var(--checkboard-size);
   }
+
+  button{
+    cursor: pointer;
+    border: none;
+    background: none;
+    outline: none;
+  }
+}
+
+// opacity-squares background
+.cp-checkboard::before{
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0; bottom: 0; left: 0; right: 0;
+  border-radius: inherit;
+  background: repeating-conic-gradient(var(--checkboard-color) 0% 25%, transparent 0% 50%) 0 / 12px 12px;
+  // box-shadow: 0 0 0 5px hsl(var(--hue), var(--s), var(--l)) inset;
 }

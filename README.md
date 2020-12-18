@@ -32,7 +32,13 @@ seen in the demo page and below, on the last section.
 const cPicker = new ColorPicker({
   color: 'red', // accepted formats: HEX(A), RGB(A), HSL(A), X11 color name
 
+  defaultFormat: 'hex', // default rendered textual represention format
+
   className: 'hidden', // initial class name for the component's wrapper element
+
+  swatches: ['red', '#666', 'rgba(10,20,30,.5)'], // to disable, set "false" instead of an Array
+
+  swatchesLocalStorage, // saves colors for persistance and cross-usage between picker instances
 
   onInput(color){}, // fired rapidly, on every range slider movement or any color change
 
