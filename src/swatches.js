@@ -18,7 +18,7 @@ export function getSetGlobalSwatches(data){
     dispatchEvent( new Event('storage') )
   }
 
-  // "filter(String)" clean up any emprty strings
+  // "filter(String)" clean up any empty strings
   return localStorage[storeKey + customKey]?.split(',').filter(String) || []
 }
 

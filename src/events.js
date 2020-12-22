@@ -3,12 +3,12 @@ export function bindEvents(){
     ['scope', 'input' , onInput],
     ['scope', 'change', onRangeChange],
     ['scope', 'click' , onButtonClick],
+    ['scope', 'wheel' , onWheelMove],
     ['value', 'change', onValueChange],
   ].forEach(([elm, event, cb]) =>
-    this.DOM[elm].addEventListener(event,  cb.bind(this))
+    this.DOM[elm].addEventListener(event,  cb.bind(this), {pasive:false})
   )
 
-  window.addEventListener('wheel', onWheelMove.bind(this));
   window.addEventListener('storage', onStorage.bind(this))
 
   // assuming picker uses as a popup
@@ -23,12 +23,15 @@ function onStorage(){
 }
 
 function onWheelMove(e){
+  // disable window scroll: https://stackoverflow.com/a/23606063/104380
+  e.preventDefault()
+
   const { value, max } = e.target,
         delta = Math.sign(e.deltaY) * -1 // normalize jump value to either -1 or 1
 
   // since the event is on the window object, the callback will be fired in all
   // instances, therefore only the currently "active" picker should be used.
-  if( this.DOM.scope.contains(e.target) ){
+  if( value && max ){
     e.target.value = Math.min(Math.max(+value + delta, 0), +max)
     onInput.call(this, e)
   }

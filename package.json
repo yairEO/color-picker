@@ -1,7 +1,7 @@
 {
     "name": "@yaireo/color-picker",
     "version": "0.9.8",
-    "homepage": "https://github.com/yairEO/color-picker",
+    "homepage": "https://yaireo.github.io/color-picker",
     "description": "Lightweight javascript color picker",
     "keywords": [
         "color",
@@ -31,7 +31,6 @@
     "scripts": {
         "start": "concurrently \"npm:build:dev\" \"npm:watch:sass\"",
         "_prepare": "npm run build",
-        "build": "npm run build:prod && npm run build:sass",
         "build:dev": "npm run clean && npm run bundle:dev",
         "build:prod": "npm run clean && npm run bundle:prod",
         "bundle:dev": "rollup -c rollup.config.dev.js -w",
@@ -42,7 +41,8 @@
         "makedir": "mkdirp dist",
         "push": "git push origin",
         "push:tags": "git push origin --tags",
-        "test": "echo \"No test specified\""
+        "test": "echo \"No test specified\"",
+        "prepublishOnly": "npm run build:prod && git add . && git commit -am '[BUILD]' && pkg-ok"
     },
     "author": {
         "name": "Yair Even-Or",
