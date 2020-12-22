@@ -29,23 +29,23 @@
   transition: opacity .15s, transform .15s;
   transition-timing-function: ease-out;
 
-  &__hue{
+  &__hue.range{
     grid-area: hue;
     --fill-color: linear-gradient(to right, red 0%, #ff0 16.6%, lime 33.3%, cyan 50%, blue 66.6%, #f0f 83.3%, red 100%);
   }
 
-  &__saturation{
+  &__saturation.range{
     grid-area: saturation;
     --fill-color: linear-gradient(to right, white, hsl(var(--hue),var(--s), 50%));
   }
 
-  &__lightness{
+  &__lightness.range{
     grid-area: lightness;
     --c: hsl(var(--hue), var(--s), 50%);
     --fill-color: linear-gradient(to right, black, var(--c), white);
   }
 
-  &__alpha{
+  &__alpha.range{
     grid-area: alpha;
     --checkboard-size: calc(var(--track-height)/2);
     --fill-color: linear-gradient(to right, transparent, hsl(var(--hue), var(--s), var(--l))),
