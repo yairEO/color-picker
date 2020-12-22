@@ -32,7 +32,7 @@
         "start": "concurrently \"npm:build:dev\" \"npm:watch:sass\"",
         "_prepare": "npm run build",
         "build:dev": "npm run clean && npm run bundle:dev",
-        "build:prod": "npm run clean && npm run bundle:prod",
+        "build:prod": "npm run clean && npm run bundle:prod && npm run build:sass",
         "bundle:dev": "rollup -c rollup.config.dev.js -w",
         "bundle:prod": "rollup -c rollup.config.prod.js",
         "build:sass": "node-sass -r --output-style compressed src/styles/styles.scss -o dist",
