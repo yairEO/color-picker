@@ -1,0 +1,10 @@
+<meta charset="utf-8">
+<script src="/dist/color-picker.min.js"></script>
+<link rel="stylesheet" href="/dist/styles.css">
+<script type="module">
+    const cPicker = new ColorPicker({
+        swatches: ['red', '#FF0000', '#0000FF', 'RGBA(0,128,0,1, .5)', 'HSLA(349.5, 100%, 87.6%, 100%)']
+    })
+
+    document.body.appendChild(cPicker.DOM.scope)
+</script>

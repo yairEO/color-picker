@@ -1,0 +1,20 @@
+<meta charset="utf-8">
+<script src="/dist/color-picker.min.js"></script>
+<link rel="stylesheet" href="/dist/styles.css">
+<script type="module">
+    const cPicker = new ColorPicker({
+        color: 'red', // accepts formats: HEX(A), RGB(A), HSL(A)
+        className: 'fooClass',
+        onClickOutside(e){
+            window.onClickOutside(e.target)
+        },
+        onInput(color){
+            window.onInput(color)
+        },
+        onChange(color){
+            window.onChange(color)
+        }
+    })
+
+    document.body.appendChild(cPicker.DOM.scope)
+</script>
