@@ -42,7 +42,7 @@
         "push": "git push origin",
         "push:tags": "git push origin --tags",
         "test": "jest",
-        "prepublishOnly": "npm run build:prod && git add . && git commit -am '[BUILD]' && pkg-ok"
+        "prepublishOnly": "npm run build:prod && pkg-ok"
     },
     "author": {
         "name": "Yair Even-Or",
