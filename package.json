@@ -42,13 +42,15 @@
         "push": "git push origin",
         "push:tags": "git push origin --tags",
         "test": "jest",
-        "prepublishOnly": "npm run build:prod && pkg-ok"
+        "header": "headr color-picker.js -o=color-picker.js --version --homepage",
+        "version": "npm run build:prod && npm run header && git add .",
+        "prepublishOnly": "pkg-ok"
     },
     "author": {
         "name": "Yair Even-Or",
         "email": "vsync.design@gmail.com"
     },
-    "main": "./dist/color-picker.min.js",
+    "main": "./dist/color-picker.js",
     "module": "./dist/color-picker.min.js",
     "files": [
         "dist/color-picker.min.js",
@@ -68,6 +70,7 @@
         "@rollup/plugin-commonjs": "^17.0.0",
         "@rollup/plugin-node-resolve": "^11.0.1",
         "concurrently": "^5.3.0",
+        "headr": "^0.0.4",
         "jest": "^26.6.3",
         "jest-environment-puppeteer": "^4.4.0",
         "jest-image-snapshot": "^4.3.0",
