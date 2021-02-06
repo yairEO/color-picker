@@ -51,9 +51,9 @@
         "email": "vsync.design@gmail.com"
     },
     "main": "./dist/color-picker.js",
-    "module": "./dist/color-picker.min.js",
+    "module": "./dist/color-picker.js",
     "files": [
-        "dist/color-picker.min.js",
+        "dist/color-picker.js",
         "dist/styles.css"
     ],
     "repository": {
