@@ -23,11 +23,6 @@
         "not IE_Mob 11",
         "not op_mini all"
     ],
-    "np": {
-        "yarn": false,
-        "contents": "dist",
-        "yolo": true
-    },
     "scripts": {
         "start": "concurrently \"npm:build:dev\" \"npm:watch:sass\"",
         "_prepare": "npm run build",
