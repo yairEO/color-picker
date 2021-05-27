@@ -4,7 +4,7 @@ import * as templates from './templates'
 import * as events from './events'
 import history from './history'
 import * as swatches from './swatches'
-import { any_to_hex, hex_rgba, rgba_hsla, CSStoHSLA, HSLAtoCSS} from './utils/convertColors'
+import {any_to_hex, hex_rgba, rgba_hsla, CSStoHSLA, HSLAtoCSS, changeColorFormat} from './utils/convertColors'
 
 var raf = window.requestAnimationFrame || (cb => window.setTimeout(cb, 1000 / 60))
 
@@ -18,8 +18,7 @@ function ColorPicker(settings){
   this.sharedSwatches = this.getSetGlobalSwatches() // only this gets syncs with the localstorage (if chosen to)
   this.initialSwatches = swatches || []
   this.swatches = swatches && this.sharedSwatches.concat(this.initialSwatches) // global (shared) via localstorage
-
-  this.setColor(this.getHSLA( this.changeColorFormat(color, defaultFormat) ))
+  this.color = changeColorFormat(color, defaultFormat)
   this.history = history.call(this)
   this.init()
 }
@@ -39,25 +38,18 @@ ColorPicker.prototype = {
             : ''
   },
 
-  changeColorFormat(color, format){
-    format = (format+"").toLowerCase()
-    color = any_to_hex(color)
-
-    return format == 'hex'
-        ? color
-        : format.startsWith('hsl')
-          ? HSLAtoCSS( rgba_hsla( hex_rgba(color) ) )
-          : format.startsWith('rgb')
-            ? hex_rgba(color)
-            : color
-  },
-
   /**
    * normalizes any color to HSLA-Object
    * @param {String} color
    */
   getHSLA( color ){
     let result
+
+    if( !color ) return
+
+    // if color argument is already an HSLA object, return it as-is
+    if( color.h && color.s )
+      return color
 
     this.colorFormat = this.getColorFormat(color)
 
@@ -128,10 +120,12 @@ ColorPicker.prototype = {
    *
    * @param {Object} hsla {h,s,l,a}
    */
-  setColor( hsla ){
-    if( !hsla ) return
+  setColor( value ){
+    if( !value ) return
 
-    this.color = hsla
+    value = this.getHSLA(value)
+
+    this.color = value
     this.setCSSColor()
     this.DOM.scope && this.updateAllCSSVars()
 
@@ -174,5 +168,7 @@ ColorPicker.prototype = {
     this.bindEvents()
   }
 }
+
+export { any_to_hex, hex_rgba, rgba_hsla, CSStoHSLA, HSLAtoCSS, changeColorFormat }
 
 export default ColorPicker

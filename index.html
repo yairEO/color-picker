@@ -93,32 +93,37 @@
   <script src="./dist/color-picker.js"></script>
 
   <script>
+    const { default:ColorPicker, any_to_hex } = window.ColorPicker
+
     // let the delayed (non-blocking) CSS a chance to load first
     setTimeout(init, 1000)
 
     function init(){
-      document.querySelectorAll('.myColor').forEach(myColor => {
+      // iterate all color inputs and instantiate an new ColorPicker instance for each
+      document.querySelectorAll('.myColor').forEach(colorInput => {
         const resizeObserver = new ResizeObserver(entries => {
           if( !cPicker.DOM.scope.classList.contains('hidden') )
-            NanoPop.reposition( myColor, cPicker.DOM.scope )
+            NanoPop.reposition( colorInput, cPicker.DOM.scope )
         })
 
         const cPicker = new ColorPicker({
-          color: myColor.value, // accepts formats: HEX(A), RGB(A), HSL(A)
+          color: colorInput.value, // accepts formats: HEX(A), RGB(A), HSL(A)
 
           className: 'hidden',
 
-          swatches: myColor.dataset.swatches == 'false'
+          // defaultFormat: 'rgb',
+
+          swatches: colorInput.dataset.swatches == 'false'
             ? false
-            : JSON.parse(myColor.dataset.swatches),
+            : JSON.parse(colorInput.dataset.swatches),
 
           swatchesLocalStorage: true,
 
           onClickOutside(e){
             let action = 'add'
 
-            if( e.target == myColor ){
-              NanoPop.reposition( myColor, cPicker.DOM.scope )
+            if( e.target == colorInput ){
+              NanoPop.reposition( colorInput, cPicker.DOM.scope )
               action = 'toggle'
             }
 
@@ -129,8 +134,8 @@
           },
 
           onInput(c){
-            myColor.value = c;
-            myColor.style.setProperty('--color', c)
+            colorInput.value = c;
+            colorInput.style.setProperty('--color', c)
           },
 
           // onChange: console.log
@@ -138,9 +143,16 @@
 
         document.body.appendChild(cPicker.DOM.scope)
 
-        NanoPop.reposition( myColor, cPicker.DOM.scope )
+        NanoPop.reposition( colorInput, cPicker.DOM.scope )
         resizeObserver.observe(document.body)
+
+        colorInput._colorPicker = cPicker
       })
+
+      // setTimeout(() => {
+      //   document.querySelector('.myColor')._colorPicker.setColor( 'red' )
+      // }, 2000)
+
     }
   </script>
 </body>

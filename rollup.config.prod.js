@@ -15,6 +15,8 @@ export default [
       file: pkg.main,
       format: 'umd',
       name: 'ColorPicker',
+      exports: 'named',
+      sourcemap: true,
     },
     plugins: [
       terser(),

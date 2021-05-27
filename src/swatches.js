@@ -1,10 +1,7 @@
 import parseHTML from './utils/parseHTML'
 import { any_to_hex } from './utils/convertColors'
 
-const swatchesIncludes = (swatches, color) => swatches.some(swatch => {
-  console.log( any_to_hex(swatch) , any_to_hex(color), any_to_hex(swatch) == any_to_hex(color) )
-  return any_to_hex(swatch) == any_to_hex(color)
-})
+const swatchesIncludes = (swatches, color) => swatches.some(swatch => any_to_hex(swatch) == any_to_hex(color))
 
 const storeKey = '@yaireo/color-picker/swatches'
 

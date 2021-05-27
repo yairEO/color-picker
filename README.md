@@ -153,3 +153,21 @@ NanoPop.reposition( myColor, cPicker.DOM.scope )
 resizeObserver.observe(document.body)
 ```
 
+### Helper methods exported alongside the *default* `ColorPicker`
+
+| Name                | Parameters                      | Info                                                                                                                                                                                                                                                                              | Info                                                                                                               |
+|---------------------|---------------------------------|-------------------------------------------------------------------------------------|
+| `any_to_hex`        | `String`                        | Converts any color string to `hex` format
+| `hex_rgba`          | `String`                        | Converts `Hex` to `RGBA` format
+| `rgba_hsla`         | `String`                        | Converts `RGBA` to `HSLA` format
+| `CSStoHSLA`         | `String`                        | Converts CSS-string `HSLA` to an `HSLA` javascript Object
+| `HSLAtoCSS`         | `String`                        | Converts `HSLA` Object to CSS-string
+| `changeColorFormat` | color `string`, format `string` | Converts any color string to another color format string
+
+
+### Methods (`ColorPicker` instance)
+
+| Name             | Parameters                                                                                                                                                                                                                                                                                                  | Info                                                                                                               |
+|------------------|-----------------------|-------------------------------------------------------------------------------|
+| `setColor`       | `String`              | Sets the instance color
+| `getColorFormat` | `String`              | Gets the format of a color string: `hex`, `rgba` or `hsla`

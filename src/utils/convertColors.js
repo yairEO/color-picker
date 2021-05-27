@@ -70,3 +70,21 @@ export const rgba_hsla = rgba => {
 
 export const hexToHsl = hex => rgba_hsla( hex_rgba(hex) )
 
+/**
+ * converts any color format to anoter
+ * @param {String} color
+ * @param {String} format ['hex', 'rgba', 'hsla']
+ * @returns a color in another format
+ */
+export const changeColorFormat = (color, format) => {
+  format = (format+"").toLowerCase()
+  color = any_to_hex(color)
+
+  return format == 'hex'
+      ? color
+      : format.startsWith('hsl')
+        ? HSLAtoCSS( rgba_hsla( hex_rgba(color) ) )
+        : format.startsWith('rgb')
+          ? hex_rgba(color)
+          : color
+}

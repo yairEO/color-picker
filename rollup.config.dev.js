@@ -11,6 +11,7 @@ export default [
     output: {
       file: pkg.main,
       format: 'umd',
+      exports: 'named',
       name: 'ColorPicker',
     },
     plugins: [
