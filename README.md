@@ -155,7 +155,8 @@ resizeObserver.observe(document.body)
 
 ### Helper methods exported alongside the *default* `ColorPicker`
 
-| Name                | Parameters                      | Info                                                                                                                                                                                                                                                                              | Info                                                                                                               |
+
+| Name                | Parameters                      | Info                                                                                                               |
 |---------------------|---------------------------------|-------------------------------------------------------------------------------------|
 | `any_to_hex`        | `String`                        | Converts any color string to `hex` format
 | `hex_rgba`          | `String`                        | Converts `Hex` to `RGBA` format
