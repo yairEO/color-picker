@@ -4,6 +4,7 @@ import * as templates from './templates'
 import * as events from './events'
 import history from './history'
 import * as swatches from './swatches'
+import isObject from './utils/isObject'
 import {any_to_hex, hex_rgba, rgba_hsla, CSStoHSLA, HSLAtoCSS, changeColorFormat} from './utils/convertColors'
 
 var raf = window.requestAnimationFrame || (cb => window.setTimeout(cb, 1000 / 60))
@@ -48,7 +49,7 @@ ColorPicker.prototype = {
     if( !color ) return
 
     // if color argument is already an HSLA object, return it as-is
-    if( color.h && color.s )
+    if( isObject(color) && Object.keys(color).join('').startsWith('hsl'))
       return color
 
     this.colorFormat = this.getColorFormat(color)
