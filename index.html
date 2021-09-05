@@ -12,16 +12,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
   <style>
-    body {
-      height: 100vh;
-      max-height: 100vh;
-      margin: 0;
+    body{
       display: flex;
       flex-flow: column;
       gap: 5vh;
       justify-content: center;
       align-items: stretch;
       text-align: center;
+      height: 100vh;
+      max-height: 100vh;
+      margin: 0;
       background: repeating-conic-gradient(#F1F1F1 0% 25%, transparent 0% 50%) 0 / 25px 25px;
     }
 
@@ -63,11 +63,12 @@
         outline: none;
         font-size: 0;
         cursor: pointer;
-        transition: transform .25s cubic-bezier(.35,0,0,1.6);
+        box-shadow: 0 0 0 0 var(--color);
+        transition: .25s cubic-bezier(.35,0,0,1.6);
       }
 
       .myColor:hover{
-        transform: scale(1.33);
+        box-shadow: 0 0 0 5px var(--color);
       }
     }
   </style>
@@ -81,72 +82,86 @@
 
   <div class='colors'>
     <input class='myColor' inputmode='none' value='gold' style='--color:gold' data-swatches='false' />
-    <input class='myColor' inputmode='none' value='HSLA(244, 64%, 62%, 100%)' style='--color:HSLA(244, 64%, 62%, 100%)' data-swatches='["LightCoral", "MediumSeaGreen", "#3680FA99"]' />
-    <input class='myColor' inputmode='none' value='rgba(0,255,255,.5)' style='--color:rgba(0,255,255,.5)' data-swatches='["rgba(50,250,80,.5)"]' />
+    <input class='myColor' inputmode='none' value='HSLA(244, 64%, 62%, 100%)' style='--color:HSLA(244, 64%, 62%, 100%)' data-swatches='["LightCoral", "MediumSeaGreen", "#3680FA99"]' data-placement='center below'/>
+    <input class='myColor' inputmode='none' value='RGBA(255,0,170,.30' style='--color:rgba(255,0,170,.3)' data-swatches='["rgba(50,250,80,.5)"]' data-placement='right center' />
   </div>
-
   <script>
-    /*! NanoPop 2.1.0 MIT | https://github.com/Simonwep/nanopop */
-    !function(e,t){"object"==typeof exports&&"undefined"!=typeof module?t(exports):"function"==typeof define&&define.amd?define(["exports"],t):t((e="undefined"!=typeof globalThis?globalThis:e||self).NanoPop={})}(this,(function(e){"use strict";const t={variantFlipOrder:{start:"sme",middle:"mse",end:"ems"},positionFlipOrder:{top:"tbrl",right:"rltb",bottom:"btrl",left:"lrbt"},position:"bottom",margin:8},o=(e,o,n)=>{const{container:r,margin:i,position:p,variantFlipOrder:s,positionFlipOrder:f}={container:document.documentElement.getBoundingClientRect(),...t,...n},{left:l,top:c}=o.style;o.style.left="0",o.style.top="0";const d=e.getBoundingClientRect(),m=o.getBoundingClientRect(),u={t:d.top-m.height-i,b:d.bottom+i,r:d.right+i,l:d.left-m.width-i},b={vs:d.left,vm:d.left+d.width/2+-m.width/2,ve:d.left+d.width-m.width,hs:d.top,hm:d.bottom-d.height/2-m.height/2,he:d.bottom-m.height},[a,h="middle"]=p.split("-"),g=f[a],v=s[h],{top:O,left:x,bottom:y,right:j}=r;for(const e of g){const t="t"===e||"b"===e,n=u[e],[r,i]=t?["top","left"]:["left","top"],[p,s]=t?[m.height,m.width]:[m.width,m.height],[f,l]=t?[y,j]:[j,y],[c,d]=t?[O,x]:[x,O];if(!(n<c||n+p>f))for(const p of v){const f=b[(t?"v":"h")+p];if(!(f<d||f+s>l))return o.style[i]=f-m[i]+"px",o.style[r]=n-m[r]+"px",e+p}}return o.style.left=l,o.style.top=c,null};e.createPopper=(e,t,n)=>{const r="object"!=typeof e||e instanceof HTMLElement?{reference:e,popper:t,...n}:e;return{update(e=r){const{reference:t,popper:n}=Object.assign(r,e);if(!n||!t)throw new Error("Popper- or reference-element missing.");return o(t,n,r)}}},e.defaults=t,e.reposition=o,e.version="2.1.0",Object.defineProperty(e,"o",{value:!0})}));
+    /* https://www.npmjs.com/package/@yaireo/position */
+    (function(a,b){if("function"==typeof define&&define.amd)define(["exports"],b);else if("undefined"!=typeof exports)b(exports);else{var c={exports:{}};b(c.exports),a.position=c.exports}})("undefined"==typeof globalThis?"undefined"==typeof self?this:self:globalThis,function(a){"use strict";var b=Math.round;Object.defineProperty(a,"__esModule",{value:!0}),a.default=void 0;/**
+    * positions a DOM element next to a certain position
+    * @param {HTMLElement} target DOM element node
+    * @param {Object} ref node reference for positioning or just {x,y} coordinates
+    * @param {String} placement [above/below/center & left/right/center] or mix of two (only works if "ref" is an HTML Element)
+    * @param {Array} prevPlacement used when calculated new position overflows
+    * @param {Array} offset distance (in pixels) from original placement position ("10px 20px" or just "10px" for both horizontal & vertical)
+    */const c=a=>{var{target:e,ref:f,offset:g,placement:h,prevPlacement:i,useRaf:j=!0}=a,k={x:f.x,y:f.y},l=f&&f.x?{...f}:{},m=document.documentElement,n={w:m.clientWidth,h:m.clientHeight},o={w:e.clientWidth,h:e.clientHeight};d=j?d:a=>a(),i=i||[],h=(h||" ").split(" ").map((b,a)=>b?b:["center","below"][a]),g=g?[g[0]||0,g[1]||g[0]||0]:[0,0],f instanceof Element&&(l=f.getBoundingClientRect(),k.x=l.x,k.y=l.y,k.w=l.width,k.h=l.height,"left"==h[0]?k.x-=o.w+g[0]:"right"==h[0]?k.x+=k.w+g[0]:k.x-=o.w/2-k.w/2,"above"==h[1]?k.y-=o.h+g[1]:"below"==h[1]?k.y+=k.h+g[1]:k.y-=o.h/2-k.h/2);const p={top:0>k.y,bottom:k.y+o.h>n.h,left:0>k.x,right:k.x+o.w>n.w},q=b=>c({...a,placement:b.join(" "),prevPlacement:h});// horizontal fix for overflows
+    return p.left&&"right"!=i[0]?q(["right",h[1]]):p.right&&"left"!=i[0]?q(["left",h[1]]):p.bottom&&"above"!=i[1]?q([h[0],"above"]):p.top&&"below"!=i[1]?q([h[0],"below"]):(d(()=>{e.setAttribute("positioned",!0),e.setAttribute("data-placement",h.join(" ")),e.setAttribute("data-pos-overflow",Object.entries(p).reduce((a,[b,c])=>c?`${a} ${b}`:a,"").trim()),[["pos-left",k.x],// overflow.right ? vpSize.w - targetSize.w : pos.x
+    ["pos-top",k.y],// pos.y > offset[1] ? pos.y : 0
+    ["pos-target-width",o.w],["pos-target-height",o.h],["pos-ref-width",l.width||0],["pos-ref-height",l.height||0],["pos-ref-left",l.x],["pos-ref-top",l.y],["window-scroll-y",window.scrollY],["window-scroll-x",window.scrollX]].forEach(([a,c])=>e.style.setProperty("--"+a,b(c)))}),{pos:k,placement:h});// vertical fix for overflows
+    // update target's position
+    };let d=requestAnimationFrame||(a=>setTimeout(a,1e3/60));a.default=c});
   </script>
 
   <script src="./dist/color-picker.js"></script>
 
   <script>
-    const { default:ColorPicker, any_to_hex } = window.ColorPicker
+    position = position.default;
+    const { default:ColorPicker, any_to_hex, changeColorFormat } = window.ColorPicker
 
     // let the delayed (non-blocking) CSS a chance to load first
-    setTimeout(init, 1000)
+    setTimeout(init, 200)
 
     function init(){
       // iterate all color inputs and instantiate an new ColorPicker instance for each
       document.querySelectorAll('.myColor').forEach(colorInput => {
-        const resizeObserver = new ResizeObserver(entries => {
-          if( !cPicker.DOM.scope.classList.contains('hidden') )
-            NanoPop.reposition( colorInput, cPicker.DOM.scope )
-        })
-
-        const cPicker = new ColorPicker({
-          color: colorInput.value, // accepts formats: HEX(A), RGB(A), HSL(A)
-
-          className: 'hidden',
-
-          // defaultFormat: 'rgb',
-
-          swatches: colorInput.dataset.swatches == 'false'
-            ? false
-            : JSON.parse(colorInput.dataset.swatches),
-
-          swatchesLocalStorage: true,
-
-          onClickOutside(e){
-            let action = 'add'
-
-            if( e.target == colorInput ){
-              NanoPop.reposition( colorInput, cPicker.DOM.scope )
-              action = 'toggle'
+            const observerCallback = (entries) => {
+              !cPicker.DOM.scope.classList.contains('hidden') &&
+              position({ target:cPicker.DOM.scope, ref:colorInput, placement:colorInput.dataset.placement || 'center above', offset:[20] });
             }
+            const resizeObserver = new ResizeObserver(observerCallback)
+            const intersectionObserver = new IntersectionObserver(observerCallback, {root:document, threshold:1});
 
-            if( e.key == 'Escape' )
-              action = 'add'
+            const cPicker = new ColorPicker({
+              color: colorInput.value, // accepts formats: HEX(A), RGB(A), HSL(A)
 
-            cPicker.DOM.scope.classList[action]('hidden')
-          },
+              className: 'hidden',
 
-          onInput(c){
-            colorInput.value = c;
-            colorInput.style.setProperty('--color', c)
-          },
+              defaultFormat: 'hsla',
 
-          // onChange: console.log
-        })
+              swatches: colorInput.dataset.swatches == 'false'
+                ? false
+                : JSON.parse(colorInput.dataset.swatches),
 
-        document.body.appendChild(cPicker.DOM.scope)
+              swatchesLocalStorage: true,
 
-        NanoPop.reposition( colorInput, cPicker.DOM.scope )
-        resizeObserver.observe(document.body)
+              onClickOutside(e){
+                let action = 'add',
+                    isTargetColorInput = e.target == colorInput
 
-        colorInput._colorPicker = cPicker
+                if( isTargetColorInput ) action = 'toggle'
+                if( e.key == 'Escape' ) action = 'add'
+
+                cPicker.DOM.scope.classList[action]('hidden')
+
+                isTargetColorInput && observerCallback()
+              },
+
+              onInput(c){
+                colorInput.value = c;
+                colorInput.style.setProperty('--color', c)
+              },
+
+              // onChange: console.log
+            })
+
+            cPicker.DOM.scope.setAttribute('positioned', true)
+            document.body.appendChild(cPicker.DOM.scope)
+
+            resizeObserver.observe(document.body)
+            intersectionObserver.observe(cPicker.DOM.scope)
+            observerCallback()
+
+            colorInput._colorPicker = cPicker
       })
 
       // setTimeout(() => {
