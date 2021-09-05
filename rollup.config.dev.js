@@ -15,7 +15,7 @@ export default [
       name: 'ColorPicker',
     },
     plugins: [
-      serve(), // index.html should be in root of project
+      serve({port: 10011}), // index.html should be in root of project
       livereload({ watch:'src', delay:1000, exts: [ 'html', 'js', 'scss', 'css' ] }),
       cleanup(),
       nodeResolve(),
