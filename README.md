@@ -95,24 +95,22 @@ const cPicker = new ColorPicker({
 
 ## Example
 
-In the below example the color picker is used as a popup.
+In the below example the color picker is used as a *popup*, so when an input of type `color` is clicked, the popup
+is shown in a way which doesn't affect the flow of the page.
+
 Since this component was designed as bare-minimum, it has no internal positioning-system
-and can be pluged with one, for example, the excellent, lightweight [nanopop](https://github.com/Simonwep/nanopop).
+and can be pluged with one, for example, [my own](https://github.com/yairEO/position).
 
 In the below example, the color-picker is being bound to an input element, so when the color-picker
 is being changes, so will the other input.
 
 ```html
-<script src="https://unpkg.com/nanopop"></script>
+<script src="https://unpkg.com/@yaireo/position"></script>
 <input class='myColor' value='gold' style='--color:gold' />
 ```
 
 ```js
-const resizeObserver = new ResizeObserver(entries => {
-  // only re-position the color picker if its not hidden
-  if( !cPicker.DOM.scope.classList.contains('hidden') )
-    NanoPop.reposition( myColor, cPicker.DOM.scope )
-})
+position = position.default; // only because "@yaireo/position" is used as a script file and not an node module (ES export)
 
 const cPicker = new ColorPicker({
   color: myColor.value, // use the input element's value
@@ -122,19 +120,15 @@ const cPicker = new ColorPicker({
   swatches: ['white', '#000', 'rgba(255,0,0,.3)'],
 
   onClickOutside(e){
-    let action = 'add'
+    let action = 'add',
+        isTargetColorInput = e.target == myColor
 
-    // if clicked on the input element, toggle picker's visibility
-    if( e.target == myColor ){
-      NanoPop.reposition( myColor, cPicker.DOM.scope )
-      action = 'toggle'
-    }
-
-    // if "escape" key was pressed, add the "hidden" class
-    if( e.key == 'Escape' )
-      action = 'add'
+    if( isTargetColorInput ) action = 'toggle'
+    if( e.key == 'Escape' ) action = 'add'
 
     cPicker.DOM.scope.classList[action]('hidden')
+
+    isTargetColorInput && observerCallback()
   },
 
   onInput(color){
@@ -146,8 +140,20 @@ const cPicker = new ColorPicker({
 // add the color picker to the DOM
 document.body.appendChild(cPicker.DOM.scope)
 
+
+const observerCallback = (entries) => {
+  !cPicker.DOM.scope.classList.contains('hidden') &&
+  position({ target:cPicker.DOM.scope, ref:myColor });
+}
+
+const resizeObserver = new ResizeObserver(observerCallback)
+const intersectionObserver = new IntersectionObserver(observerCallback, {root:document, threshold:1});
+
+
 // position the color picker next to the input element
-NanoPop.reposition( myColor, cPicker.DOM.scope )
+resizeObserver.observe(document.body)
+intersectionObserver.observe(cPicker.DOM.scope)
+observerCallback()
 
 // re-position on window resize
 resizeObserver.observe(document.body)
