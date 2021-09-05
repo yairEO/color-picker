@@ -1,6 +1,5 @@
 .color-picker__value{
-  // using "60" (instead of 50) to offset more to the white
-  --isLightColor: Min(1, Max(60 - var(--lightness) - (100 - var(--alpha)), 0));
+  --isLightColor: Min(1, Max(50 - var(--lightness) - (100 - var(--alpha)), 0));
   grid-area: value;
   position: relative;
   display: inline-flex;
@@ -18,7 +17,7 @@
     letter-spacing: -.5px;
     word-spacing: -3px;
     font: 800 16px/2 monospace;
-    font-size: calc(var(--width)*var(--width-units)/ 20);
+    font-size: calc(var(--width)*var(--width-units)/ 22);
     text-transform: uppercase;
     padding: 0;
     text-align: center;
