@@ -71,6 +71,31 @@
         box-shadow: 0 0 0 5px var(--color);
       }
     }
+
+    .color-picker.hidden{
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .color-picker[positioned]{
+      --x: calc(var(--pos-left) + var(--window-scroll-x));
+      --y: calc(var(--pos-top) + var(--window-scroll-y));
+      position: absolute;
+      z-index: 999999;
+      border-radius: 10px;
+      padding: .5em;
+      box-shadow: 0 0 20px #00000055;
+      backdrop-filter: blur(3px);
+      background-color: rgba(white, .5);
+      top: 0;
+      left: 0;
+      transform: translate(calc(var(--x) * 1px),
+                          calc(var(--y) * 1px));
+
+      @media only screen and (max-device-width : 640px) {
+        max-width: 70%;
+      }
+    }
   </style>
 </head>
 <body>

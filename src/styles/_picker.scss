@@ -26,7 +26,7 @@
   position: relative;
   box-sizing: border-box;
 
-  transition: opacity .15s, transform .15s;
+  transition: opacity .15s;
   transition-timing-function: ease-out;
 
   &__hue.range{
