@@ -69,6 +69,7 @@
     &::-moz-range-thumb { @include thumb }
 
     &:active {
+      opacity: .7;
       cursor: grabbing;
       + output { transition: 0s; }
     }
