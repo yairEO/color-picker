@@ -47,7 +47,7 @@
 
   &__alpha.range{
     grid-area: alpha;
-    --checkboard-size: calc(var(--track-height)/2);
+    --checkboard-size: 8px;
     --fill-color: linear-gradient(to right, transparent, hsl(var(--hue), var(--s), var(--l))),
                   var(--checkboard-base-gradient)
                   0 / var(--checkboard-size) var(--checkboard-size);
