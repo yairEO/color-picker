@@ -47,7 +47,7 @@ function onClickOutside(e){
     this.settings.onClickOutside(e)
 }
 
-function  onInput(e){
+function onInput(e){
   const {name, value, type} = e.target
 
   if( type == 'range' ){
