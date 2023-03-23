@@ -3,7 +3,10 @@ import { terser }      from 'rollup-plugin-terser'
 import cleanup         from 'rollup-plugin-cleanup'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs        from '@rollup/plugin-commonjs'
-import pkg             from './package.json'
+
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
+const pkg = require('./package.json');
 
 const banner = `/*! Color-Picker ${pkg.version} MIT | https://github.com/yairEO/color-picker */`;
 
