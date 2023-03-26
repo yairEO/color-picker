@@ -72,11 +72,6 @@
       }
     }
 
-    .color-picker.hidden{
-      opacity: 0;
-      pointer-events: none;
-    }
-
     .color-picker[positioned]{
       --x: calc(var(--pos-left) + var(--window-scroll-x));
       --y: calc(var(--pos-top) + var(--window-scroll-y));
@@ -89,12 +84,22 @@
       background: white;
       top: 0;
       left: 0;
+      animation: .15s reveal-picker ease-out forwards;
       transform: translate(calc(var(--x) * 1px),
-                          calc(var(--y) * 1px));
+                           calc(var(--y) * 1px));
 
       @media only screen and (max-device-width : 640px) {
         max-width: 70%;
       }
+    }
+
+    .color-picker[data-placement~=left]{ --left: 15px; }
+    .color-picker[data-placement~=right]{ --left: -15px; }
+    .color-picker[data-placement~=below]{ --top: -15px; }
+    .color-picker[data-placement~=above]{ --top: 15px; }
+
+    @keyframes reveal-picker {
+      from { opacity: 0; top: var(--top, 0); left: var(--left, 0); }
     }
   </style>
 </head>
@@ -110,84 +115,91 @@
     <input class='myColor' inputmode='none' value='HSLA(244, 64%, 62%, 100%)' style='--color:HSLA(244, 64%, 62%, 100%)' data-swatches='["LightCoral", "MediumSeaGreen", "#3680FA99"]' data-placement='center below'/>
     <input class='myColor' inputmode='none' value='RGBA(255,0,170,.30' style='--color:rgba(255,0,170,.3)' data-swatches='["rgba(50,250,80,.5)"]' data-placement='right center' />
   </div>
-  <script>
-    /* https://www.npmjs.com/package/@yaireo/position */
-    (function(a,b){if("function"==typeof define&&define.amd)define(["exports"],b);else if("undefined"!=typeof exports)b(exports);else{var c={exports:{}};b(c.exports),a.position=c.exports}})("undefined"==typeof globalThis?"undefined"==typeof self?this:self:globalThis,function(a){"use strict";var b=Math.round;Object.defineProperty(a,"__esModule",{value:!0}),a.default=void 0;/**
-    * positions a DOM element next to a certain position
-    * @param {HTMLElement} target DOM element node
-    * @param {Object} ref node reference for positioning or just {x,y} coordinates
-    * @param {String} placement [above/below/center & left/right/center] or mix of two (only works if "ref" is an HTML Element)
-    * @param {Array} prevPlacement used when calculated new position overflows
-    * @param {Array} offset distance (in pixels) from original placement position ("10px 20px" or just "10px" for both horizontal & vertical)
-    */const c=a=>{var{target:e,ref:f,offset:g,placement:h,prevPlacement:i,useRaf:j=!0}=a,k={x:f.x,y:f.y},l=f&&f.x?{...f}:{},m=document.documentElement,n={w:m.clientWidth,h:m.clientHeight},o={w:e.clientWidth,h:e.clientHeight};d=j?d:a=>a(),i=i||[],h=(h||" ").split(" ").map((b,a)=>b?b:["center","below"][a]),g=g?[g[0]||0,g[1]||g[0]||0]:[0,0],f instanceof Element&&(l=f.getBoundingClientRect(),k.x=l.x,k.y=l.y,k.w=l.width,k.h=l.height,"left"==h[0]?k.x-=o.w+g[0]:"right"==h[0]?k.x+=k.w+g[0]:k.x-=o.w/2-k.w/2,"above"==h[1]?k.y-=o.h+g[1]:"below"==h[1]?k.y+=k.h+g[1]:k.y-=o.h/2-k.h/2);const p={top:0>k.y,bottom:k.y+o.h>n.h,left:0>k.x,right:k.x+o.w>n.w},q=b=>c({...a,placement:b.join(" "),prevPlacement:h});// horizontal fix for overflows
-    return p.left&&"right"!=i[0]?q(["right",h[1]]):p.right&&"left"!=i[0]?q(["left",h[1]]):p.bottom&&"above"!=i[1]?q([h[0],"above"]):p.top&&"below"!=i[1]?q([h[0],"below"]):(d(()=>{e.setAttribute("positioned",!0),e.setAttribute("data-placement",h.join(" ")),e.setAttribute("data-pos-overflow",Object.entries(p).reduce((a,[b,c])=>c?`${a} ${b}`:a,"").trim()),[["pos-left",k.x],// overflow.right ? vpSize.w - targetSize.w : pos.x
-    ["pos-top",k.y],// pos.y > offset[1] ? pos.y : 0
-    ["pos-target-width",o.w],["pos-target-height",o.h],["pos-ref-width",l.width||0],["pos-ref-height",l.height||0],["pos-ref-left",l.x],["pos-ref-top",l.y],["window-scroll-y",window.scrollY],["window-scroll-x",window.scrollX]].forEach(([a,c])=>e.style.setProperty("--"+a,b(c)))}),{pos:k,placement:h});// vertical fix for overflows
-    // update target's position
-    };let d=requestAnimationFrame||(a=>setTimeout(a,1e3/60));a.default=c});
-  </script>
 
-  <script src="./dist/color-picker.js"></script>
+  <script src='https://cdn.jsdelivr.net/npm/@yaireo/position'></script>
+  <script src='./dist/color-picker.js'></script>
 
   <script>
+    // because "@yaireo/position" is used (in this demo) as a script file and not an node module (ES export)
     position = position.default;
+
+    // get the ColorPicker & some helper functions for color format transformations
     const { default:ColorPicker, any_to_hex, changeColorFormat } = window.ColorPicker
 
     // let the delayed (non-blocking) CSS a chance to load first
     setTimeout(init, 200)
 
     function init(){
-      // iterate all color inputs and instantiate an new ColorPicker instance for each
+      // iterate all color inputs and instantiate new ColorPicker instances (for each one)
       document.querySelectorAll('.myColor').forEach(colorInput => {
-            const observerCallback = (entries) => {
-              !cPicker.DOM.scope.classList.contains('hidden') &&
-              position({ target:cPicker.DOM.scope, ref:colorInput, placement:colorInput.dataset.placement || 'center above', offset:[20] });
-            }
-            const resizeObserver = new ResizeObserver(observerCallback)
-            const intersectionObserver = new IntersectionObserver(observerCallback, {root:document, threshold:1});
+        const observerCallback = (entries) => {
+          !cPicker.DOM.scope.classList.contains('hidden') &&
+          position({ target:cPicker.DOM.scope, ref:colorInput, placement:colorInput.dataset.placement || 'center above', offset:[20] });
+        }
+        const resizeObserver = new ResizeObserver(observerCallback)
+        const intersectionObserver = new IntersectionObserver(observerCallback, {root:document, threshold:1});
 
-            const cPicker = new ColorPicker({
-              color: colorInput.value, // accepts formats: HEX(A), RGB(A), HSL(A)
+        const cPicker = new ColorPicker({
+          color: colorInput.value, // accepts formats: HEX(A), RGB(A), HSL(A)
 
-              className: 'hidden',
+          defaultFormat: 'hsla',
 
-              defaultFormat: 'hsla',
+          swatches: colorInput.dataset.swatches == 'false'
+            ? false
+            : JSON.parse(colorInput.dataset.swatches),
 
-              swatches: colorInput.dataset.swatches == 'false'
-                ? false
-                : JSON.parse(colorInput.dataset.swatches),
+          swatchesLocalStorage: true,
 
-              swatchesLocalStorage: true,
+          // when clicking anywhere that is not within the color picker.
+          // use special logic if clicked on the color-input which is
+          // assosiacated with this specific picker
+          onClickOutside(e){
+            let showPicker = false,
+                isTargetColorInput = e.target == colorInput;
 
-              onClickOutside(e){
-                let action = 'add',
-                    isTargetColorInput = e.target == colorInput
+            const pickerElem = cPicker.DOM.scope;
 
-                if( isTargetColorInput ) action = 'toggle'
-                if( e.key == 'Escape' ) action = 'add'
+            if( isTargetColorInput ) showPicker = true
+            if( e.key == 'Escape' )  showPicker = false
 
-                cPicker.DOM.scope.classList[action]('hidden')
+            // remove the color-picker from the DOM
+            if( showPicker ) {}
+              showColorPicker(pickerElem)
+            else
+              hideColorPicker(pickerElem);
 
-                isTargetColorInput && observerCallback()
-              },
+            isTargetColorInput && observerCallback()
+          },
 
-              onInput(c){
-                colorInput.value = c;
-                colorInput.style.setProperty('--color', c)
-              },
+          onInput(c){
+            colorInput.value = c;
+            colorInput.style.setProperty('--color', c)
+          },
 
-              // onChange: console.log
-            })
+          // onChange: console.log
+        })
 
-            cPicker.DOM.scope.setAttribute('positioned', true)
-            document.body.appendChild(cPicker.DOM.scope)
+        cPicker.DOM.scope.setAttribute('positioned', true)
+        // document.body.appendChild(cPicker.DOM.scope)
 
-            resizeObserver.observe(document.body)
-            intersectionObserver.observe(cPicker.DOM.scope)
-            observerCallback()
+        resizeObserver.observe(document.body)
+        intersectionObserver.observe(cPicker.DOM.scope)
+        observerCallback()
 
-            colorInput._colorPicker = cPicker
+        // assign a custom property to color-input element
+        // which points to the corresponding color-picker instance
+        colorInput._colorPicker = cPicker
       })
+
+      function showColorPicker(pickerElem) {
+        // if picker isn't already in the DOM:
+        if( !document.body.contains(pickerElem) )
+          document.body.appendChild(pickerElem); // inject to DOM
+      }
+
+      function hideColorPicker(pickerElem) {
+        pickerElem.remove();
+      }
 
       // setTimeout(() => {
       //   document.querySelector('.myColor')._colorPicker.setColor( 'red' )
