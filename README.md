@@ -86,7 +86,7 @@ const cPicker = new ColorPicker({
   onInput(color){},
 
   // like "onInput", but not fired while a range slider is moved
-  onChnage(color){},
+  onChange(color){},
 
   // helpful when the component is used as a popup
   onClickOutside(e){}
@@ -110,15 +110,19 @@ is being changes, so will the other input.
 ```
 
 ```js
-position = position.default; // only because "@yaireo/position" is used as a script file and not an node module (ES export)
+// because "@yaireo/position" is used (in this demo) as a script file and not an node module (ES export)
+position = position.default;
 
 const cPicker = new ColorPicker({
   color: myColor.value, // use the input element's value
 
-  className: 'hidden', // start as hidden
+  className: 'hidden', // optional class name which will be added to the color-picker component
 
   swatches: ['white', '#000', 'rgba(255,0,0,.3)'],
 
+  // when clicking anywhere that is not within the color picker.
+  // use special logic if clicked on the color-input which is
+  // assosiacated with this specific picker
   onClickOutside(e){
     let action = 'add',
         isTargetColorInput = e.target == myColor
