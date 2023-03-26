@@ -11,12 +11,12 @@ export function getSetGlobalSwatches(data){
         customKey = typeof _store == 'string' ? _store : '';
 
   if ( _store && data ){
-    localStorage.setItem(storeKey + customKey, data)
+    localStorage.setItem(storeKey + customKey, data.join(';'))
     dispatchEvent( new Event('storage') )
   }
 
   // "filter(String)" clean up any empty strings
-  return localStorage[storeKey + customKey]?.split(',').filter(String) || []
+  return localStorage[storeKey + customKey]?.split(';').filter(String) || []
 }
 
 // sync instance swatches with global ones. skip duplicates
