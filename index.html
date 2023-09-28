@@ -123,6 +123,9 @@
     // because "@yaireo/position" is used (in this demo) as a script file and not an node module (ES export)
     position = position.default;
 
+    // sample input "value" changes to reflect any change back to the color-picker component
+    const VALUE_CHANGE_SAMPLING_DURATION = 1000;
+
     // get the ColorPicker & some helper functions for color format transformations
     const { default:ColorPicker, any_to_hex, changeColorFormat } = window.ColorPicker
 
@@ -130,8 +133,11 @@
     setTimeout(init, 200)
 
     function init(){
+      //
+      const colorInputs = document.querySelectorAll('.myColor')
+
       // iterate all color inputs and instantiate new ColorPicker instances (for each one)
-      document.querySelectorAll('.myColor').forEach(colorInput => {
+      colorInputs.forEach(colorInput => {
         const observerCallback = (entries) => {
           !cPicker.DOM.scope.classList.contains('hidden') &&
           position({ target:cPicker.DOM.scope, ref:colorInput, placement:colorInput.dataset.placement || 'center above', offset:[20] });
@@ -139,6 +145,7 @@
         const resizeObserver = new ResizeObserver(observerCallback)
         const intersectionObserver = new IntersectionObserver(observerCallback, {root:document, threshold:1});
 
+        // instanciate the color-picker
         const cPicker = new ColorPicker({
           color: colorInput.value, // accepts formats: HEX(A), RGB(A), HSL(A)
 
@@ -148,6 +155,7 @@
             ? false
             : JSON.parse(colorInput.dataset.swatches),
 
+          // enable saving colors locally to also be shared across other color-picker intances
           swatchesLocalStorage: true,
 
           // when clicking anywhere that is not within the color picker.
@@ -189,6 +197,16 @@
         // assign a custom property to color-input element
         // which points to the corresponding color-picker instance
         colorInput._colorPicker = cPicker
+
+        // sample input "value" changes
+        setInterval(() => {
+          const currentValue = any_to_hex(colorInput.value),
+                pickerValue = any_to_hex(cPicker.CSSColor)
+
+          if(pickerValue != currentValue) {
+            cPicker.setColor(currentValue)
+          }
+        }, VALUE_CHANGE_SAMPLING_DURATION);
       })
 
       function showColorPicker(pickerElem) {
