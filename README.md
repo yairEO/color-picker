@@ -36,17 +36,18 @@
 ---
 <br>
 
-This color-picker component is basesd on my previous work with highly customizable range input (slider) component: [UI-Range](https://github.com/yairEO/ui-range)
+This color-picker component is based on my previous work with highly customizable range input (slider) component: [UI-Range](https://github.com/yairEO/ui-range)
 and the power of HSLA color format infused into custom CSS properties (variables) to allow as lightweight solution as possible.
 
 I have hand-crafted the color transformation functions to be as lightweight as possible, and kept the UI to
 the minimum necessary to provide the user with a better, unified, color-picking experience which I believe is better
-than the default `<input type='color'>` which looks different across browsers and OS, and does ***not*** alow modifications to a color's *alpha* (opacity) channel.
+than the default `<input type='color'>` which looks different across browsers and OS, and does ***not*** allow modifications to a color's *alpha* (opacity) channel.
 
 Since this component is ***only*** a color-picker, and does not transforms or interacts with any `<input type='color'>` elements on the page,
-it is up to developers, if they wish, to connect it to a `color`-input and have the color-picker positioned next to it in a popup-manner.
-Such behaviour can be seen seen in the demo page and below, on the last section.
+it is up to developers, if they wish, to connect it to an input and have the color-picker positioned next to it in a popup-manner.
+Such behavior can be seen seen in the demo page and below, on the last section.
 
+I advise using a `type='text'` input which can offer support for any color format (as a string) because `type='text'` cannot work with named colors such as `value='red'`.
 
 <br>
 
