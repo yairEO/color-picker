@@ -9,6 +9,8 @@ export function bindEvents(){
     this.DOM[elm].addEventListener(event,  cb.bind(this), {pasive:false})
   )
 
+  // bind storage event listener because all color pickers are connected,
+  // so if one save or remove a color the change will reflect in all others
   window.addEventListener('storage', onStorage.bind(this))
 
   // assuming picker uses as a popup
