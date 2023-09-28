@@ -16,6 +16,7 @@ export default [
       format: 'umd',
       exports: 'named',
       name: 'ColorPicker',
+      sourcemap: true,
     },
     plugins: [
       serve({port: 10011}), // index.html should be in root of project
