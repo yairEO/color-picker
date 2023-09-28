@@ -166,6 +166,27 @@ observerCallback()
 resizeObserver.observe(document.body)
 ```
 
+### Listen to input external `value` changes
+
+If your <input> element's value property might change by means other than this color picker component,
+then it is advisable to periodically check and match the color picker's internal value to the input's value.
+
+```js
+import ColorPicker, {any_to_hex} from '@yaireo/color-picker'
+
+const colorInput = document.querySelector('input')
+const cPicker = new ColorPicker(...)
+const VALUE_CHANGE_SAMPLING_DURATION = 1000
+
+setInterval(() => {
+  const inputValue = any_to_hex(colorInput.value)
+  const pickerValue = any_to_hex(cPicker.CSSColor)
+
+  if(pickerValue != inputValue)
+    cPicker.setColor(inputValue)
+}, VALUE_CHANGE_SAMPLING_DURATION);
+```
+
 ### Helper methods exported alongside the *default* `ColorPicker`
 
 
