@@ -31,20 +31,22 @@
   * custom color add/remove swatch
   * optional global sync with *localstorage* between picker instances
 
+<br>
 
-<details>
-  <summary><strong>tl;dr</strong></summary>
+---
+<br>
 
-This color-picker component is basesd on my previous work with highly customizable range input (slider) component: [UI-Range](https://github.com/yairEO/ui-range) and the power of HSLA color format infused into custom CSS properties (variables) to allow as lightweight solution as possible.
+This color-picker component is basesd on my previous work with highly customizable range input (slider) component: [UI-Range](https://github.com/yairEO/ui-range)
+and the power of HSLA color format infused into custom CSS properties (variables) to allow as lightweight solution as possible.
 
 I have hand-crafted the color transformation functions to be as lightweight as possible, and kept the UI to
 the minimum necessary to provide the user with a better, unified, color-picking experience which I believe is better
-than the default `<input type=color>` which looks different across browsers and OS, and does ***not*** alow modifications to a color's *alpha* (opacity) channel.
+than the default `<input type='color'>` which looks different across browsers and OS, and does ***not*** alow modifications to a color's *alpha* (opacity) channel.
 
-Since this component is ***only*** the color picker itself, it is up to developers to connect it to a position script,
-if they wish to use it as a *popup* when some other thing is clicked on the page. An example of such can be
-seen in the demo page and below, on the last section.
-</details>
+Since this component is ***only*** a color-picker, and does not transforms or interacts with any `<input type='color'>` elements on the page,
+it is up to developers, if they wish, to connect it to a `color`-input and have the color-picker positioned next to it in a popup-manner.
+Such behaviour can be seen seen in the demo page and below, on the last section.
+
 
 <br>
 
