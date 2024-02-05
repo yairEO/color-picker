@@ -57,6 +57,27 @@ I advise using a `type='text'` input which can offer support for any color forma
 
 ## Use
 
+The codebase is bundled into 2 formats:
+
+`iife` (to be used as standalone script):
+
+```html
+<script src='@yaireo/color-picker/color-picker.iife.js'></script>
+<script>
+  const { default:ColorPicker, any_to_hex, changeColorFormat } = window.colorPicker
+</script>
+```
+
+`es` (to be used via `import` command in your bundle or moduled sciprt).<br>
+This is the default ("main") the package serves:
+```html
+<script src='@yaireo/color-picker'></script>
+<script>
+  const { default:ColorPicker, any_to_hex, changeColorFormat } = window.colorPicker
+</script>
+```
+
+
 ```js
 const cPicker = new ColorPicker({
   // accepted formats: HEX(A), RGB(A), HSL(A), X11 color name

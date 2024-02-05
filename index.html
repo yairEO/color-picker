@@ -117,9 +117,11 @@
   </div>
 
   <script src='https://cdn.jsdelivr.net/npm/@yaireo/position'></script>
-  <script src='./dist/color-picker.js'></script>
+  <!-- <script src='./dist/color-picker.iife.js'></script> -->
 
-  <script>
+  <script type='module'>
+    import ColorPicker, {any_to_hex, changeColorFormat} from './dist/color-picker.es.js'
+
     // because "@yaireo/position" is used (in this demo) as a script file and not an node module (ES export)
     position = position.default;
 
@@ -127,7 +129,7 @@
     const VALUE_CHANGE_SAMPLING_DURATION = 1000;
 
     // get the ColorPicker & some helper functions for color format transformations
-    const { default:ColorPicker, any_to_hex, changeColorFormat } = window.ColorPicker
+    // const { default:ColorPicker, any_to_hex, changeColorFormat } = window.colorPicker
 
     // let the delayed (non-blocking) CSS a chance to load first
     setTimeout(init, 200)

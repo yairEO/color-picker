@@ -23,7 +23,7 @@
         "access": "public"
     },
     "engines": {
-        "node": "> 12 < 20"
+        "node": "> 18"
     },
     "type": "module",
     "scripts": {
@@ -48,11 +48,10 @@
         "name": "Yair Even-Or",
         "email": "vsync.design@gmail.com"
     },
-    "main": "./dist/color-picker.js",
-    "module": "./dist/color-picker.js",
+    "main": "./dist/color-picker.es.js",
+    "module": "./dist/color-picker.es.js",
     "files": [
-        "dist/color-picker.js",
-        "dist/styles.css"
+        "./dist"
     ],
     "repository": {
         "type": "git",
@@ -62,21 +61,21 @@
         "url": "https://github.com/yaireo/color-picker/issues"
     },
     "devDependencies": {
-        "@babel/core": "^7.23.0",
-        "@babel/preset-env": "^7.22.20",
-        "@rollup/plugin-babel": "^6.0.3",
-        "@rollup/plugin-commonjs": "^25.0.4",
-        "@rollup/plugin-node-resolve": "^15.2.1",
-        "@rollup/plugin-terser": "^0.4.3",
-        "concurrently": "^8.2.1",
-        "headr": "^0.0.4",
-        "mkdirp": "^3.0.1",
-        "rimraf": "^5.0.5",
-        "rollup": "^3.29.3",
-        "rollup-plugin-cleanup": "^3.2.1",
-        "rollup-plugin-livereload": "^2.0.5",
-        "rollup-plugin-scss": "^4.0.0",
-        "rollup-plugin-serve": "^2.0.2",
-        "sass": "^1.68.0"
+        "@babel/core": "7.23.9",
+        "@babel/preset-env": "7.23.9",
+        "@rollup/plugin-babel": "6.0.4",
+        "@rollup/plugin-commonjs": "25.0.7",
+        "@rollup/plugin-node-resolve": "15.2.3",
+        "@rollup/plugin-terser": "0.4.4",
+        "concurrently": "8.2.2",
+        "headr": "0.0.4",
+        "mkdirp": "3.0.1",
+        "rimraf": "5.0.5",
+        "rollup": "4.9.6",
+        "rollup-plugin-cleanup": "3.2.1",
+        "rollup-plugin-livereload": "2.0.5",
+        "rollup-plugin-scss": "4.0.0",
+        "rollup-plugin-serve": "2.0.2",
+        "sass": "1.70.0"
     }
 }
