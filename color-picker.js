@@ -1,6 +1,13 @@
 /**
   * @yaireo/color-picker - Lightweight javascript color picker
   *
+  * @version v0.13.0
+  * @homepage https://yaireo.github.io/color-picker
+  */
+
+/**
+  * @yaireo/color-picker - Lightweight javascript color picker
+  *
   * @version v0.12.1
   * @homepage https://yaireo.github.io/color-picker
   */
