@@ -7,6 +7,9 @@
 
     > button{
       --shadow-size: 2px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       order: 0;
       padding: 12px;
       width: 0;
@@ -14,8 +17,7 @@
       border-radius: 50%;
       background: var(--c);
       font-size: 18px;
-      line-height: 1px;
-      text-indent: -6px;
+      line-height: 0px;
       transition: .1s;
       box-shadow: 0 0 0 var(--shadow-size) inset var(--color);
 
