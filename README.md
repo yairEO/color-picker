@@ -101,9 +101,9 @@ const cPicker = new ColorPicker({
 
   // buttons text & icon
   buttons: {
-    undo   : { icon: '↶', title: 'Undo' },
-    add    : { icon: '+', title: 'Add to Swatches' },
-    format : { icon: '⇆', title: 'Switch Color Format' }
+    undo   : { icon: '&curvearrowleft;', title: 'Undo' },
+    format : { icon: '&leftrightarrows;', title: 'Switch Color Format' },
+    add    : { icon: '+', title: 'Add to Swatches' }
   },
 
   // fired rapidly, on every range slider movement or any color change

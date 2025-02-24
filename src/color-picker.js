@@ -68,7 +68,7 @@ ColorPicker.prototype = {
     return result
   },
 
-  swithFormat(){
+  switchFormat(){
     const _cf = this.colorFormat
 
     switch( _cf ){

@@ -4,11 +4,11 @@ export default {
   onChange: _=>_,
   buttons: {
     undo: {
-      icon: '↶',
+      icon: '&curvearrowleft;',
       title: 'Undo'
     },
     format: {
-      icon: '⇆',
+      icon: '&leftrightarrows;',
       title: 'Switch Color Format'
     },
     add: {

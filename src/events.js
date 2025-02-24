@@ -77,7 +77,7 @@ function onButtonClick(e){
   //   case
   // }
   if( name == 'format' )
-    this.swithFormat()
+    this.switchFormat()
 
   else if( name == 'undo' )
     this.history.undo()
@@ -89,7 +89,7 @@ function onButtonClick(e){
     this.removeSwatch(pNode, pNode.title)
 
   else if( classList.contains('color-picker__swatch') && title ){
-    this.history.last = this.color
     this.setColor( this.getHSLA(title) )
+    this.history.last = this.color
   }
 }
