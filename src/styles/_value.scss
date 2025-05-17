@@ -16,8 +16,9 @@
     width: 0;
     letter-spacing: -.5px;
     word-spacing: -3px;
-    font: 800 16px/2 monospace;
-    font-size: calc(var(--width)*var(--width-units)/ 22);
+    font: 300 14px/2 monospace;
+    letter-spacing: 0.05em;
+    font-size: calc(var(--width)*var(--width-units)/ 25);
     text-transform: uppercase;
     padding: 0;
     text-align: center;
