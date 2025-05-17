@@ -3,6 +3,7 @@ import terser          from '@rollup/plugin-terser'
 import cleanup         from 'rollup-plugin-cleanup'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs        from '@rollup/plugin-commonjs'
+import typescript      from '@rollup/plugin-typescript'
 
 import { createRequire } from 'node:module'
 const require = createRequire(import.meta.url)
@@ -12,7 +13,7 @@ const banner = `/*! Color-Picker ${pkg.version} MIT | https://github.com/yairEO/
 
 export default [
   {
-    input: 'src/color-picker.js',
+    input: 'src/index.ts',
     output: [
       {
         banner,
@@ -32,6 +33,10 @@ export default [
       }
     ],
     plugins: [
+      typescript({
+        tsconfig: './tsconfig.json',
+        sourceMap: false,
+      }),
       terser(),
       babel({ babelHelpers: 'bundled' }),
       cleanup(),

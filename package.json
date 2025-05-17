@@ -30,13 +30,14 @@
         "start": "concurrently \"npm:build:dev\" \"npm:watch:sass\"",
         "_prepare": "npm run build",
         "build:dev": "npm run clean && npm run bundle:dev",
-        "build:prod": "npm run clean && npm run bundle:prod && npm run build:sass",
+        "build:prod": "npm run clean && npm run bundle:prod && npm run build:sass && npm run generate-types",
         "bundle:dev": "rollup -c rollup.config.dev.js -w",
         "bundle:prod": "rollup -c rollup.config.prod.js",
         "build:sass": "sass --style=compressed src/styles/styles.scss dist/styles.css",
         "watch:sass": "npm run build:sass -- --watch",
         "clean": "rm -rf dist && npm run makedir",
         "makedir": "mkdirp dist",
+        "generate-types": "tsc --emitDeclarationOnly",
         "push": "git push origin",
         "push:tags": "git push origin --tags",
         "test": "jest",
@@ -50,6 +51,7 @@
     },
     "main": "./dist/color-picker.es.js",
     "module": "./dist/color-picker.es.js",
+    "types": "./dist/types/index.d.ts",
     "files": [
         "./dist"
     ],
@@ -67,6 +69,8 @@
         "@rollup/plugin-commonjs": "25.0.7",
         "@rollup/plugin-node-resolve": "15.2.3",
         "@rollup/plugin-terser": "0.4.4",
+        "@rollup/plugin-typescript": "^12.1.2",
+        "@types/node": "^22.15.18",
         "concurrently": "8.2.2",
         "headr": "0.0.4",
         "mkdirp": "3.0.1",
@@ -76,6 +80,8 @@
         "rollup-plugin-livereload": "2.0.5",
         "rollup-plugin-scss": "4.0.0",
         "rollup-plugin-serve": "2.0.2",
-        "sass": "1.70.0"
+        "sass": "1.70.0",
+        "tslib": "^2.8.1",
+        "typescript": "^5.8.3"
     }
 }
