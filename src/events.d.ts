@@ -1,0 +1,1 @@
+export function bindEvents(this: import('./color-picker').default): void;

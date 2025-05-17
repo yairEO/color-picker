@@ -1,0 +1,1 @@
+export function mergeDeep<T>(target: T, ...sources: Record<string, any>[]): T;

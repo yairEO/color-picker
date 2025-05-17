@@ -1,0 +1,1 @@
+export function extend<T extends Record<string, any>>(o: T, o1: Record<string, any>, o2?: Record<string, any>): T;

@@ -1,0 +1,1 @@
+export default function parseHTML(str: string): HTMLElement;
