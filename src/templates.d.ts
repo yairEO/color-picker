@@ -1,4 +1,4 @@
-import { HSLAColor } from './types';
+import { HSLAColor } from './types.ts';
 
 interface SliderOptions {
   name: string;

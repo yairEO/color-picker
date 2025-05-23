@@ -1,4 +1,4 @@
-import { HSLAColor } from '../types';
+import { HSLAColor } from '../types.ts';
 
 /**
  * Converts CSS HEX color to array of hex values

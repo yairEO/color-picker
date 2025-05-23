@@ -1,5 +1,5 @@
-import { ColorPickerSettings } from './defaults';
-import { HSLAColor, NamedHSLAColor } from './types';
+import { ColorPickerSettings } from './defaults.ts';
+import { HSLAColor, NamedHSLAColor } from './types.ts';
 
 declare class ColorPicker {
   /**

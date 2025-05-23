@@ -1,4 +1,4 @@
-import { HSLAColor } from './types';
+import { HSLAColor } from './types.ts';
 
 export interface ColorHistory {
   _value: HSLAColor[];
