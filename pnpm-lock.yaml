@@ -929,11 +929,8 @@ packages:
     resolution: {integrity: sha512-zhaCDicdLuWN5UbN5IMnFqNMhNfo919sH85y2/ea+5Yg9TsTkeZxpL+JLbp6cgYFS4sRLp3YV4S6yDuqVWHYOw==}
     engines: {node: '>=6'}
 
-  caniuse-lite@1.0.30001540:
-    resolution: {integrity: sha512-9JL38jscuTJBTcuETxm8QLsFr/F6v0CYYTEU6r5+qSM98P2Q0Hmu0eG1dTG5GBUmywU3UlcVOUSIJYY47rdFSw==}
-
-  caniuse-lite@1.0.30001581:
-    resolution: {integrity: sha512-whlTkwhqV2tUmP3oYhtNfaWGYHDdS3JYFQBKXxcUR9qqPWsRhFHhoISO2Xnl/g0xyKzht9mI1LZpiNWfMzHixQ==}
+  caniuse-lite@1.0.30001718:
+    resolution: {integrity: sha512-AflseV1ahcSunK53NfEs9gFWgOEmzr0f+kaMFA4xiLZlr9Hzt7HxcSpIFcnNCUkz6R6dWKa54rUz3HUmI3nVcw==}
 
   chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -2469,14 +2466,14 @@ snapshots:
 
   browserslist@4.22.0:
     dependencies:
-      caniuse-lite: 1.0.30001540
+      caniuse-lite: 1.0.30001718
       electron-to-chromium: 1.4.531
       node-releases: 2.0.13
       update-browserslist-db: 1.0.13(browserslist@4.22.0)
 
   browserslist@4.22.3:
     dependencies:
-      caniuse-lite: 1.0.30001581
+      caniuse-lite: 1.0.30001718
       electron-to-chromium: 1.4.648
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.22.3)
@@ -2485,9 +2482,7 @@ snapshots:
 
   builtin-modules@3.3.0: {}
 
-  caniuse-lite@1.0.30001540: {}
-
-  caniuse-lite@1.0.30001581: {}
+  caniuse-lite@1.0.30001718: {}
 
   chalk@2.4.2:
     dependencies:
