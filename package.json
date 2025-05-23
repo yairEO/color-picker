@@ -1,6 +1,6 @@
 {
     "name": "@yaireo/color-picker",
-    "version": "0.15.0",
+    "version": "0.15.1",
     "homepage": "https://yaireo.github.io/color-picker",
     "description": "Lightweight javascript color picker",
     "keywords": [
