@@ -35,7 +35,7 @@ export default [
     plugins: [
       typescript({
         tsconfig: './tsconfig.json',
-        sourceMap: false,
+        sourceMap: true,
       }),
       terser(),
       babel({ babelHelpers: 'bundled' }),
